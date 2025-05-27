@@ -27,7 +27,7 @@
 
     /* Modules */
     // "module": "commonjs",                                /* Specify what module code is generated. */
-    "noEmit": true,
+    // "noEmit": true,
     "module": "es2020",               // ✅ Required for ESM
     "moduleResolution": "bundler",   // ✅ Required for Node ESM
     // "rootDir": "./",                                  /* Specify the root folder within your source files. */
@@ -115,12 +115,14 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "resolveJsonModule": true,
     "allowJs": true,
-    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
   },
   "ts-node": {
     "esm": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  // "exclude": ["node_modules", "build", "dist"]
 }
 
 // {

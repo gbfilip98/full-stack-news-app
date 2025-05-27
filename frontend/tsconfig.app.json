@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "jest/setupTests.ts"]
+  "include": ["src", "src/tests/setupTests.ts"]
 }

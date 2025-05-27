@@ -1,3 +1,32 @@
+// import { Linter } from 'eslint';
+
+// const config: Linter.Config = {
+//   root: true,
+//   parser: '@typescript-eslint/parser',
+//   plugins: ['@typescript-eslint', 'react', 'react-hooks'],
+//   extends: [
+//     'eslint:recommended',
+//     'plugin:react/recommended',
+//     'plugin:@typescript-eslint/recommended',
+//   ],
+//   parserOptions: {
+//     ecmaVersion: 'latest',
+//     sourceType: 'module',
+//     ecmaFeatures: { jsx: true },
+//   },
+//   settings: {
+//     react: {
+//       version: 'detect',
+//     },
+//   },
+//   rules: {
+//     '@typescript-eslint/no-unused-vars': ['warn'],
+//     'react/react-in-jsx-scope': 'off', // Vite doesn't require React import
+//   },
+// };
+
+// export default config;
+
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -23,6 +52,7 @@ export default defineConfig([
     },
     rules: {
       ...pluginReact.configs.flat.recommended.rules,
+      "@typescript-eslint/no-unused-vars": ["warn"],
       "react/react-in-jsx-scope": "off",
     },
   },

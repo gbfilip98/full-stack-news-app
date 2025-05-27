@@ -1,3 +1,23 @@
+// import type { Config } from 'jest';
+
+// const config: Config = {
+//   preset: 'ts-jest',
+//   testEnvironment: 'jsdom',
+//   setupFilesAfterEnv: ['<rootDir>/src/tests/setupTests.ts'],
+//   transform: {
+//     '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
+//   },
+//   moduleNameMapper: {
+//     '\\.(scss|css)$': 'identity-obj-proxy', // za importovanje SCSS modula
+//     '^@/(.*)$': '<rootDir>/src/$1',         // alias za lakši import
+//   },
+//   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+//   testMatch: ['<rootDir>/src/**/*.(test|spec).{ts,tsx}'],
+//   verbose: true,
+// };
+
+// export default config;
+
 // const { createDefaultPreset } = require("ts-jest");
 
 // const tsJestTransformCfg = createDefaultPreset().transform;
@@ -18,8 +38,8 @@ export default {
   preset: "ts-jest",
   // transform,
   testEnvironment: "jsdom",
-  testMatch: ["**/jest/**/*.test.ts"],
-  setupFilesAfterEnv: ["<rootDir>/jest/setupTests.ts"],
+  testMatch: ["**/tests/**/*.test.ts"],
+  setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
   moduleNameMapper: {
     "\\.(css|scss|sass)$": "identity-obj-proxy",
   },

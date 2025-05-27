@@ -4,4 +4,8 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
+  // "compilerOptions": {
+  //   "rootDir": "./src",          // 👈 Ulazni kod se nalazi u src/
+  //   "outDir": "./build",         // 👈 OUTPUT ide u build/
+  // }
 }

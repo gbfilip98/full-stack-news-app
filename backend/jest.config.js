@@ -15,15 +15,25 @@
 export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
-  testMatch: ["**/jest/**/*.test.ts"],
+  testMatch: ["**/tests/**/*.test.ts"],
+  moduleFileExtensions: ["ts", "tsx", "js"],
   extensionsToTreatAsEsm: [".ts"],
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
+  // transform: {
+  //   "^.+\\.tsx?$": "ts-jest",
+  // },
+  // globals: {
+  //   "ts-jest": {
+  //     useESM: true,
+  //     tsconfig: "./tsconfig.json",
+  //   },
+  // },
   globals: {
     "ts-jest": {
       useESM: true,
-      tsconfig: "./tsconfig.json",
+      isolatedModules: true,
     },
   },
 };
