@@ -1,8 +1,24 @@
 import mongoose from 'mongoose';
 // import bcrypt from 'bcryptjs';
-import { IUser } from '../types/User.js';
+import { User } from '../types/User.js';
+import { Article } from '../types/Article';
 
-const userSchema = new mongoose.Schema<IUser>({
+const ArticleSchema = new mongoose.Schema<Article>({
+  source: {
+    id: { type: String, default: null },
+    name: String,
+  },
+  author: { type: String, default: null },
+  title: String,
+  description: { type: String, default: null },
+  url: String,
+  urlToImage: { type: String, default: null },
+  publishedAt: String,
+  content: { type: String, default: null },
+  category: { type: String, default: null },
+});
+
+const UserSchema = new mongoose.Schema<User>({
   firstName: {
     type: String,
     required: true
@@ -24,13 +40,14 @@ const userSchema = new mongoose.Schema<IUser>({
     type: Boolean,
     default: false
   },
-  bookmarks: { 
-    type: [String],
-    default: [] 
-  },
+  // bookmarks: { 
+  //   type: [String],
+  //   default: [] 
+  // },
+  bookmarks: [ArticleSchema],
 });
 
-export default mongoose.model<IUser>('User', userSchema);
+export default mongoose.model<User>('User', UserSchema);
 
 // const userSchema = new mongoose.Schema({
 //   email: {

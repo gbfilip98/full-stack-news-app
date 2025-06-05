@@ -1,9 +1,12 @@
 // src/types/Article.ts
+
+export interface ArticleSource {
+  id: string | null;
+  name: string;
+}
+
 export interface Article {
-  source: {
-    id: string | null;
-    name: string;
-  };
+  source: ArticleSource;
   author: string | null;
   title: string;
   description: string | null;
@@ -11,12 +14,5 @@ export interface Article {
   urlToImage: string | null;
   publishedAt: string;
   content: string | null;
-}
-
-//NIGDJE SE NE KORISTI
-// Optional type for full response
-export interface NewsApiResponse {
-  status: string;
-  totalResults: number;
-  articles: Article[];
+  category: string | null;
 }

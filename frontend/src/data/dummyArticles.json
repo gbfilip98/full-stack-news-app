@@ -1,0 +1,79 @@
+[
+  {
+    "source": { "id": null, "name": "Dummy News" },
+    "author": "John Doe",
+    "title": "Sample News Title",
+    "description": "This is a dummy article for testing.",
+    "url": "https://dummy.com/article1",
+    "urlToImage": null,
+    "publishedAt": "2024-05-01T00:00:00Z",
+    "content": "Full dummy content here...",
+    "category": "general"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article2",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article3",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article4",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article5",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article6",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article7",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  }
+]

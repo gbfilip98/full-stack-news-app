@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import app from '../index.js'; // Your express instance
+import app from '../app.js'; // Your express instance
 
 describe('User Auth', () => {
   beforeAll(async () => {

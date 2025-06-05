@@ -15,7 +15,7 @@
 export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
-  testMatch: ["**/tests/**/*.test.ts"],
+  testMatch: ["/tests/**/*.test.ts"],
   moduleFileExtensions: ["ts", "tsx", "js"],
   extensionsToTreatAsEsm: [".ts"],
   moduleNameMapper: {

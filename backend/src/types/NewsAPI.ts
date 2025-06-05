@@ -1,21 +1,7 @@
-export interface NewsSource {
-  id: string | null;
-  name: string;
-}
-
-export interface NewsArticle {
-  source: NewsSource;
-  author: string | null;
-  title: string;
-  description: string | null;
-  url: string;
-  urlToImage: string | null;
-  publishedAt: string;
-  content: string | null;
-}
+import { Article } from "./Article";
 
 export interface NewsApiResponse {
   status: string;
   totalResults: number;
-  articles: NewsArticle[];
+  articles: Article[];
 }

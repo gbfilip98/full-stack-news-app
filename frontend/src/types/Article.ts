@@ -1,4 +1,5 @@
 export interface Article {
+  _id?: string;
   source: {
     id: string | null;
     name: string;
@@ -10,10 +11,5 @@ export interface Article {
   urlToImage: string | null;
   publishedAt: string;
   content: string | null;
-}
-
-export interface NewsApiResponse {
-  status: string;
-  totalResults: number;
-  articles: Article[];
+  category?: string;
 }
