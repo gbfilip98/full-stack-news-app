@@ -1,5 +1,5 @@
 import { getService } from '../api';
-import { type NewsApiResponse } from '../../types/NewsApiResponse';
+import { type NewsApiResponse } from '@/types/NewsApiResponse';
 
 // export const login = async (payload: {
 //   email: string;

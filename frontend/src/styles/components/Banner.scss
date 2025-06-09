@@ -1,0 +1,79 @@
+.banner-wrapper {
+  background-color: $color_red_primary;
+  background-image: url("/images/mask-image.png");
+  background-repeat: no-repeat;
+  background-position: 120% center;
+  height: 60px;
+  width: 100%;
+}
+
+.banner {
+  height: 100%;
+  max-width: 1095px;
+  margin: 0 auto;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  font-size: 1.1rem;
+  font-weight: 400;
+//   border-bottom: 3px solid #005a99;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media screen and (max-width: 719px) {
+    img {
+      display: none;
+    }
+  }
+
+  .banner-texts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    
+    p {
+        margin: 0px;
+    }
+
+    p:first-of-type {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 21px;
+    }
+
+    p:last-of-type {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+    }
+  }
+
+  .banner-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+
+    button {
+        border: none;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    button:first-of-type {
+        background: transparent;
+        color: #fff;
+    }
+
+    button:last-of-type {
+        background: #fff;
+        width: 69px;
+        height: 40px;
+        border-radius: 8px;
+    }
+  }
+}

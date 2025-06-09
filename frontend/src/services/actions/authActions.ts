@@ -1,5 +1,5 @@
 import { postService, patchService } from '../api';
-import { type User } from '../../types/User';
+import { type User } from '@/types/User';
 
 export const register = async (payload: {
   firstName: string;

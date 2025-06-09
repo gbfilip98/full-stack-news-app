@@ -1,6 +1,6 @@
 import { getService, patchService } from '../api';
-import { type Article } from '../../types/Article';
-import type { User } from '../../types/User';
+import { type Article } from '@/types/Article';
+import { type User } from '@/types/User';
 
 export const addBookmark = async (article: Article, token: string): Promise<User> => {
   const response = await patchService('/user/bookmark/add', article, token);

@@ -21,7 +21,7 @@ const ArticleCard: React.FunctionComponent<Props> = ({ article, /* onBookmark */
           <BookmarkButton /* articleId={article.source.id} */ />
         </div>
         <p className="article-meta">
-          {new Date(article.publishedAt).toLocaleString()} {/* | {article.category} */}
+          {new Date(article.publishedAt).toString()} {/* | {article.category} */}
         </p>
         <p className="article-source">Source: {article.source.name}</p>
         <a href={article.url} target="_blank" rel="noopener noreferrer" className="read-more">

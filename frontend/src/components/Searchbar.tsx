@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useNewsContext } from '../context/NewsContext';
-import { fetchArticles } from '../services/actions/newsActions';
-import type { Article } from '../types/Article';
+import { useEffect, useState } from "react";
+import { useNewsContext } from "../context/NewsContext";
+import { fetchArticles } from "../services/actions/newsActions";
+import { type Article } from "../types/Article";
+import Icon from "./Icon";
 
-interface Props {
-  trigger: boolean;
-}
-
-const Searchbar: React.FunctionComponent<Props> = ({ trigger }) => {
-  const { data, setData } = useNewsContext();
+const Searchbar: React.FunctionComponent = () => {
+  const {
+    generalData,
+    regularNewsData,
+    setRegularNewsData,
+  } = useNewsContext();
   const [input, setInput] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,92 +17,79 @@ const Searchbar: React.FunctionComponent<Props> = ({ trigger }) => {
   };
 
   const handleClick = async () => {
-    if (data.sectionOne.category !== "Favorites") {
-      setData(prev => ({ 
-        ...prev, 
-        sectionOne: { 
-          ...prev.sectionOne, 
-          page: 1, 
-          searchInput: input, 
-          isLoading: true
-        } 
+    if (regularNewsData.category !== "Favorites") {
+      setRegularNewsData((prev) => ({
+        ...prev,
+        page: 1,
+        searchInput: input,
+        isLoading: true
       }));
 
       try {
-        console.log("search",
-          data.sectionOne.category,
-          input
-        )
-  
-        const response = await fetchArticles({ 
-          category: data.sectionOne.category, 
-          page: 1, 
-          searchInput: input.trim()
+        console.log("search", regularNewsData.category, input);
+
+        const response = await fetchArticles({
+          category: regularNewsData.category,
+          page: 1,
+          searchInput: input.trim(),
         });
 
         // console.log("response",
         //   response
         // )
-  
-        setData(prev => ({
+
+        setRegularNewsData((prev) => ({
           ...prev,
-          sectionOne: { 
-            ...prev.sectionOne, 
-            articles: response.articles, 
-            totalArticles: response.totalResults, 
-            isLoading: false,
-            error: null
-          },
+          articles: response.articles,
+          totalArticles: response.totalResults,
+          isLoading: false,
+          error: null
         }));
       } catch (err: any) {
-        console.error('Error loading articles:', err.message);
-        setData(prev => ({ 
-          ...prev, 
-          sectionOne: { 
-            ...prev.sectionOne, 
-            error: err.message || 'Failed to load articles', 
-            isLoading: false 
-          } 
+        console.error("Error loading articles:", err.message);
+        setRegularNewsData((prev) => ({
+          ...prev,
+          error: err.message || "Failed to load articles",
+          isLoading: false
         }));
       }
     } else {
-      setData(prev => {
+      setRegularNewsData((prev) => {
         let filteredFavorites: Article[] = [];
         const text = input.trim().toLowerCase();
 
         if (!text) {
-          filteredFavorites = prev.user!.bookmarks || [];
+          filteredFavorites = generalData.user!.bookmarks || [];
         } else {
-          filteredFavorites = prev.user!.bookmarks?.filter(
+          filteredFavorites = generalData.user!.bookmarks?.filter(
             (a) =>
               a.title.toLowerCase().includes(text) ||
-              (a.description?.toLowerCase().includes(text) || false)
+              a.description?.toLowerCase().includes(text) ||
+              false
           );
         }
 
         return {
           ...prev,
-          sectionOne: { 
-            ...prev.sectionOne, 
-            articles: filteredFavorites,
-            totalArticles: filteredFavorites.length,
-            page: 1,
-            searchInput: input,
-          },
-        }
+          articles: filteredFavorites,
+          totalArticles: filteredFavorites.length,
+          page: 1,
+          searchInput: input
+        };
       });
     }
   };
 
   useEffect(() => {
     setInput("");
-  }, [trigger])
-  
+  }, [regularNewsData.category]); // when category is clicked this is triggered
 
-  console.log("data", data)
+  console.log("regularNewsData", regularNewsData);
 
   return (
     <div className="search-bar-container">
+      <Icon name="search" width={11.25} height={11.25} viewBox="0 0 20 20" fill="#1D1D1B"/> 
+      {/* OPACITY 40% */}
       <input
         type="text"
         placeholder="Search news..."

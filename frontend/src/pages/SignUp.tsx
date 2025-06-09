@@ -63,9 +63,9 @@
 
 // export default SignUp;
 
-import React, { useState } from 'react';
-import { register } from '../services/actions/authActions';
-import '../styles/components/Auth.scss';
+import React, { useState } from "react";
+import { register } from "../services/actions/authActions";
+import "../styles/components/Auth.scss";
 
 interface IFormData {
   firstName: string;
@@ -76,17 +76,17 @@ interface IFormData {
 }
 
 const defaultFormData: IFormData = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const SignUp = () => {
   const [form, setForm] = useState<IFormData>(defaultFormData);
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -94,7 +94,7 @@ const SignUp = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const togglePasswordVisibility = () => setShowPassword(prev => !prev);
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,7 +103,7 @@ const SignUp = () => {
     setMessage("");
 
     if (form.password !== form.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       setIsProcessing(false);
       return;
     }
@@ -117,7 +117,9 @@ const SignUp = () => {
     }
 
     if (form.password.length < 6 || !/[A-Z]/.test(form.password)) {
-      setError('Password should be at least 6 characters with an uppercase letter');
+      setError(
+        "Password should be at least 6 characters with an uppercase letter"
+      );
       setIsProcessing(false);
       return;
     }
@@ -130,10 +132,12 @@ const SignUp = () => {
         password: form.password,
       });
 
-      setMessage(response.message || 'Check your email to verify your account.');
+      setMessage(
+        response.message || "Check your email to verify your account."
+      );
       setForm(defaultFormData);
     } catch (err: any) {
-      setError(err.message || 'Registration failed');
+      setError(err.message || "Registration failed");
     } finally {
       setIsProcessing(false);
     }
@@ -143,18 +147,37 @@ const SignUp = () => {
     <div className="auth-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
-        <input name="firstName" placeholder="First Name" onChange={handleChange} value={form.firstName} required />
-        <input name="lastName" placeholder="Last Name" onChange={handleChange} value={form.lastName} required />
+        <input
+          name="firstName"
+          placeholder="First Name"
+          onChange={handleChange}
+          value={form.firstName}
+          required
+        />
+        <input
+          name="lastName"
+          placeholder="Last Name"
+          onChange={handleChange}
+          value={form.lastName}
+          required
+        />
 
         <div className="input-row">
-          <input name="email" type="email" placeholder="Email" onChange={handleChange} value={form.email} required />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            onChange={handleChange}
+            value={form.email}
+            required
+          />
         </div>
 
         <div className="input-row password-row">
           <div className="password-wrapper">
             <input
               name="password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               onChange={handleChange}
               value={form.password}
@@ -166,14 +189,14 @@ const SignUp = () => {
               onClick={togglePasswordVisibility}
               aria-label="Toggle password visibility"
             >
-              {showPassword ? '🙈' : '👁️'}
+              {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
 
           <div className="password-wrapper">
             <input
               name="confirmPassword"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="Repeat Password"
               onChange={handleChange}
               value={form.confirmPassword}
@@ -185,12 +208,14 @@ const SignUp = () => {
               onClick={togglePasswordVisibility}
               aria-label="Toggle password visibility"
             >
-              {showPassword ? '🙈' : '👁️'}
+              {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
         </div>
 
-        <button type="submit" disabled={isProcessing}>Register</button>
+        <button type="submit" disabled={isProcessing}>
+          Register
+        </button>
 
         {message && <p className="success-msg">{message}</p>}
         {error && <p className="error-msg">{error}</p>}

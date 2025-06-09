@@ -1,18 +1,30 @@
-$font-family-primary: 'Inter', sans-serif;
+$font_family_primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-$color-black-primary: '#000';
-$color-blue-primary: '#181a32';
-$color-gray-primary: '#f2f2f2';
-$color-green-primary: '#4fdd9d';
-$color-pink-primary: '#f5c4ca';
-$color-purple-primary: '#b9c5f7';
-$color-red-primary: '#f00';
-$color-white-primary: '#fff';
-$color-yellow-primary: '#f8e1a0';
+$color_black_primary: #111;
+$color_blue_primary: #1E71BB;
+$color_gray_primary: #F4F5F8;
+$color_red_primary: #BB1E1E;
+$color_white_primary: #fff;
 
-$color-blue-secondary: '#7b90f4';
-$color-gray-secondary: '#d4d4d4';
-$color-green-secondary: '#80ecab';
-$color-pink-secondary: '#fbd3d9';
-$color-purple-secondary: '#a3b3fe';
-$color-red-secondary: '#cc3366';
+$color_black_secondary: #1D1D1B;
+$color_gray_secondary: #dedede;
+$color_red_secondary: #B21919;
+
+$color_gray_ternary: #8D8D8C;
+
+// $color-black-primary: '#000';
+// $color-blue-primary: '#181a32';
+// $color-gray-primary: '#f2f2f2';
+// $color-green-primary: '#4fdd9d';
+// $color-pink-primary: '#f5c4ca';
+// $color-purple-primary: '#b9c5f7';
+// // $color-red-primary: '#f00';
+// $color-white-primary: '#fff';
+// $color-yellow-primary: '#f8e1a0';
+
+// $color-blue-secondary: '#7b90f4';
+// $color-gray-secondary: '#d4d4d4';
+// $color-green-secondary: '#80ecab';
+// $color-pink-secondary: '#fbd3d9';
+// $color-purple-secondary: '#a3b3fe';
+// // $color-red-secondary: '#cc3366';

@@ -16,6 +16,7 @@ export const addBookmark = async (req: AuthRequest, res: Response) => {
   //   res.status(400).json({ message: 'Already bookmarked' });
   // } else {
   user.bookmarks.push(article);
+  user.bookmarks.sort((a: any, b: any) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   await user.save();
   
   const { password: _, ...userData } = user.toObject();
