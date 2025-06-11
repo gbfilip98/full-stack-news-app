@@ -1,25 +1,69 @@
-import { useState } from "react";
+import { lazy, useState } from "react";
 import "../styles/components/Banner.scss";
+import Icon from "./Icon";
+import { colors } from "@/data/constants";
+import LogoutWindow from "./LogoutWindow";
 
-interface Props {
-  setBannerVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const BannerWindowDesktop = lazy(() => import("./BannerWindowDesktop"));
 
-const Banner: React.FunctionComponent<Props> = ({ setBannerVisible }) => {
+// interface Props {
+//   bannerVisible: boolean;
+//   setBannerVisible: React.Dispatch<React.SetStateAction<boolean>>;
+// }
+
+const Banner: React.FunctionComponent = () => {
   const [messageOpened, setMessageOpened] = useState(false);
+  const [logoutWindowOpened, setLogoutWindowOpened] = useState<boolean>(false);
+  const [bannerVisible, setBannerVisible] = useState<boolean>(true);
+
   return (
     <div className="banner-wrapper">
       <div className="banner">
-          <div className="banner-texts">
+        {bannerVisible ? (
+          <>
+            <div className="banner-texts">
               <p>Make MyNews your homepage</p>
               <p>Every day discover what’s trending on the internet!</p>
-          </div>
-          <div className="banner-buttons">
-              <button onClick={() => setBannerVisible(false)}>No, thanks</button>
+            </div>
+            <div className="banner-buttons">
+              <button onClick={() => setBannerVisible(false)}>
+                No, thanks
+              </button>
               <button onClick={() => setMessageOpened(true)}>GET</button>
-          </div>
+            </div>
+          </>
+        ) : (
+          <button
+            onClick={() => {
+              setLogoutWindowOpened(true);
+            }}
+            className="logout-button desktop"
+          >
+            <Icon
+              name="logout"
+              width="20"
+              height="20"
+              viewBox="3 3 18 18"
+              fill={colors.color_white_primary}
+              alt="Logout button on desktop screen"
+            />
+          </button>
+        )}
       </div>
-      {messageOpened ? <div className="banner-message">{`To make this your homepage:\n\n1. Open your browser settings.\n2. Find "Homepage" or "On startup".\n3. Enter: ${window.location.href}`}</div> : ""}
+      {messageOpened ? (
+        // <Suspense fallback={<div>Loading...</div>}>
+          <BannerWindowDesktop setBannerVisible={setBannerVisible} setMessageOpened={setMessageOpened}/>
+        // </Suspense>
+      ) : (
+        ""
+      )}
+      {logoutWindowOpened ? (
+        // <Suspense fallback={<div>Loading...</div>}>
+          <LogoutWindow setLogoutWindowOpened={setLogoutWindowOpened} />
+        // </Suspense>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

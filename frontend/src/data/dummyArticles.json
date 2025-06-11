@@ -75,5 +75,104 @@
     "publishedAt": "2024-05-02T00:00:00Z",
     "content": "Another dummy body...",
     "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article8",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article9",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article10",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+    {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article11",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article12",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article13",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article14",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article15",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
+  },
+  {
+    "source": { "id": null, "name": "Test Source" },
+    "author": "Jane Doe",
+    "title": "Another Sample Headline",
+    "description": "This one is also fake.",
+    "url": "https://dummy.com/article16",
+    "urlToImage": null,
+    "publishedAt": "2024-05-02T00:00:00Z",
+    "content": "Another dummy body...",
+    "category": "business"
   }
 ]

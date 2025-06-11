@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Response } from 'express';
-// import { fetchNewsArticles } from '../services/newsService.js';
-import { NewsApiResponse } from '../types/NewsAPI';
+import { NewsApiResponse } from '../types/Article';
 import { AuthRequest } from '../types/Auth';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 export const getArticles = async (req: AuthRequest, res: Response) => {
@@ -16,7 +16,7 @@ export const getArticles = async (req: AuthRequest, res: Response) => {
     process.env.NEWS_API_URL!,
       {
         params: {
-          q: q || "a",
+          q: q || "a",  // default q for NewsAPI is "a"
           category: category,
           pageSize: pageSize,
           page: page,
@@ -30,9 +30,16 @@ export const getArticles = async (req: AuthRequest, res: Response) => {
 
     console.log("asasvonevpe", response.data.totalResults)
 
-    res.json(response.data);
-  } catch (error) {
-    console.error('News fetch error:', error);
-    res.status(500).json({ message: 'Failed to fetch news articles' + error });
+    res.status(201).json(response.data);
+  } catch (err: unknown) {
+    let errorMessage = "";
+
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    } else {
+      errorMessage = 'Failed to fetch news articles.';
+    }
+
+    res.status(500).json({ message: errorMessage });
   }
 };

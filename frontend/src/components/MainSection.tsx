@@ -1,15 +1,15 @@
 import NewsSection from "./NewsSection";
 import SidebarCategories from "./SidebarCategories";
 import "../styles/components/MainSection.scss";
-import { useNewsContext } from "@/context/NewsContext";
+// import { useNewsContext } from "@/context/NewsContext";
 
 const MainSection: React.FunctionComponent = () => {
-  const { generalData } = useNewsContext();
+  // const { generalData } = useNewsContext();
   
   return (
-    <section className={"section-one-wrapper" + (generalData.windowOpened ? " window" : "")}>
-      <div className="section-layout">
-        <SidebarCategories />
+    <section className="main-section-wrapper">
+      <div className="main-section-layout">
+        <SidebarCategories inWindow={false}/>
         <NewsSection />   {/* CHANGE NAMING */}
       </div>
     </section>

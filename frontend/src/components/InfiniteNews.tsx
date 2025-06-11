@@ -1,19 +1,21 @@
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNewsContext } from "../context/NewsContext";
-import { fetchArticles } from "../services/actions/newsActions";
 import InfiniteNewsCard from "./InfiniteNewsCard";
 import Icon from "./Icon";
-import { sortArticles } from "@/utils/sortArticles";
+// import { sortArticles } from "@/utils/sortArticles";
 import "../styles/components/InfiniteNews.scss";
+import { fetchInfiniteNewsData } from "@/utils/fetchNewsData";
+import { colors } from "@/data/constants";
+import type { Article } from "@/types/Article";
 // import dummyArticles from "../data/dummyArticles.json"
 
-const InfiniteNews = () => {
+const InfiniteNews: React.FunctionComponent = () => {
   const { infiniteNewsData, setInfiniteNewsData } = useNewsContext();
   const [skipFetch, setSkipFetch] = useState<boolean>(true);
   const observer = useRef<IntersectionObserver | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
 
-  const loadMore = useCallback(async () => {
+  const handleLoadMore = () => {
     const pageSize = infiniteNewsData.pageSize + 10;
 
     setInfiniteNewsData((prev) => ({
@@ -21,28 +23,8 @@ const InfiniteNews = () => {
       isLoading: true
     }));
 
-    try {
-      const response = await fetchArticles({ pageSize: pageSize });
-      console.log("load triggered");
-
-      // const response = { articles: dummyArticles };
-      // const fetchedArticles = response?.articles || [];
-
-      setInfiniteNewsData({
-        articles: sortArticles(response.articles || []),
-        pageSize: pageSize,
-        isLoading: false,
-        error: null
-      });
-    } catch (error: any) {
-      console.error("Error loading more articles:", error.message);
-      setInfiniteNewsData((prev) => ({
-        ...prev,
-        error: error.message || "Error loading more articles",
-        isLoading: false
-      }));
-    }
-  }, [infiniteNewsData, setInfiniteNewsData]);
+    fetchInfiniteNewsData({ setInfiniteNewsData, pageSize })
+  };
 
   useEffect(() => {
     if (!skipFetch) {
@@ -54,7 +36,7 @@ const InfiniteNews = () => {
           !infiniteNewsData.isLoading &&
           infiniteNewsData.articles.length > 0
         ) {
-          loadMore();
+          handleLoadMore();
         }
       });
 
@@ -66,37 +48,31 @@ const InfiniteNews = () => {
     } else {
       setSkipFetch(false);
     }
-  }, [loadMore]);
+  }, [handleLoadMore]);
+
+  console.log("infiniteNewsData", infiniteNewsData);
 
   return (
-    <div className="section-two-wrapper">
-      <div className="section-two-title">
-        <img 
-          src="/src/assets/icons/alert.svg"
-          alt="Latest news"
-          height="20px"
-          width="20px"
-        />
-        <h2>Latest news</h2>
+    <section className="infinite-section-wrapper">
+      <div className="infinite-section-title">
+        <Icon name="alert" fill={colors.color_red_primary} alt="Latest news"/>
+        <h2 className="title">Latest news</h2>
       </div>
-      <section className="section-two">
+      <div className="infinite-section">
         <div className="infinite-news-grid">
-          {infiniteNewsData.articles?.map((article, index) => (
+          {infiniteNewsData.articles?.map((article: Article, index: number) => (
             <InfiniteNewsCard key={`${index}. infinite url - ` + article.url} article={article} />
           ))}
         </div>
+        {infiniteNewsData.isLoading ? <p>Loading...</p> : ""}
 
         <div ref={endRef} style={{ height: "30px" }} />
-      </section>
+      </div>
       <div className="see-more">
         <p>See all news</p>
-        <Icon name="arrow" width="8" height="20" viewBox="0 0 8 11"/>
-        {/* <img
-          src="/src/assets/icons/arrow-right.svg"
-          alt="Right arrow"
-        /> */}
+        <Icon name="arrow" width="8" height="20" viewBox="0 0 8 8" alt="See all news"/>
       </div>
-    </div>
+    </section>
   );
 };
 

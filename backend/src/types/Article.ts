@@ -16,3 +16,9 @@ export interface Article {
   content: string | null;
   category: string | null;
 }
+
+export interface NewsApiResponse {
+  status: string;
+  totalResults: number;
+  articles: Article[];
+}

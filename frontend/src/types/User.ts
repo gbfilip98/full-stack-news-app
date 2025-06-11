@@ -5,7 +5,10 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  // password?: string;
   isVerified: boolean;
-  bookmarks: Article[]; // bookmarked articles
+  bookmarks: Article[]; // bookmarked articles (favorites)
+}
+
+export interface IToken {
+  token: string;
 }

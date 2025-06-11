@@ -5,45 +5,39 @@ import RegularNews from "./RegularNews";
 import { useMemo } from "react";
 
 const NewsSection: React.FunctionComponent = () => {
-  const { regularNewsData } = useNewsContext();
+  const { regularNewsData, displayedNews } = useNewsContext();
+
   const subtitle = useMemo(() => {
     return regularNewsData.category !== "Home"
       ? " - " + regularNewsData.category.toLowerCase()
       : "";
-  }, [regularNewsData.category])
+  }, [regularNewsData.category]);
 
   return (
-    <div className="section-main">
-      <h2>{"News" + subtitle}</h2>
+    <div className="main-section">
+      <h2 className="main-title">{"News" + subtitle}</h2>
 
-      <div className="mobile-filters">
-        <p>Featured</p>
-        <p>Latest</p>
-        {regularNewsData.category !== "Home" ? (
-          <div className="mobile-displayed-category">
-            <p>
-              {regularNewsData.category}
-            </p>
-            <img
-              src="/src/assets/icons/close.svg"
-              alt="Close category"
-            />
-          </div>
+      <div
+        className={
+          "all-news" +
+          (!regularNewsData.isLoading && regularNewsData.articles?.length < 14
+            ? " rows-number"
+            : "")
+        }
+      >
+        {displayedNews === "all-news" || displayedNews === "regular-news" ? ( // maybe lazy load
+          <RegularNews />
+        ) : (
+          ""
+        )}
+        {displayedNews === "all-news" || displayedNews === "infinite-news" ? (  // maybe lazy load
+          <InfiniteNews />
         ) : (
           ""
         )}
       </div>
 
-      <div
-        className={
-          "all-news" + (!regularNewsData.isLoading && regularNewsData.articles?.length < 14 ? " rows-number" : "")
-        }
-      >
-        <RegularNews />
-        <InfiniteNews />
-      </div>
-
-      <Pagination />
+      {regularNewsData.totalArticles > 16 && displayedNews && displayedNews !== "infinite-news" ? <Pagination /> : ""}
     </div>
   );
 };

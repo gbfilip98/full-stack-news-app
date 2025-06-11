@@ -3,6 +3,8 @@ import { ITEMS_PER_PAGE, useNewsContext } from "../context/NewsContext";
 import { addBookmark, removeBookmark } from "../services/actions/userActions";
 import { defineCategory } from "@/utils/defineCategory";
 import Icon from "./Icon";
+import { useMemo } from "react";
+import { colors } from "@/data/constants";
 
 interface Props {
   article: Article;
@@ -11,41 +13,49 @@ interface Props {
 // const BreakingNewsCard = lazy(() => import('./BreakingNewsCard'));
 // const NormalNewsCard = lazy(() => import('./NormalNewsCard'));
 
-const RegularNewsCard: React.FC<Props> = ({ article }) => {
-  const { generalData, regularNewsData, setGeneralData, setRegularNewsData } =
+const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
+  const { userData, regularNewsData, setUserData, setRegularNewsData } =
     useNewsContext();
 
-  const isBookmarked = 
-  // useMemo(() => {
-     generalData.user?.bookmarks?.some((a) => a.url === article.url);
-  // }, [generalData.user?.bookmarks, article.url]);
+  const isBookmarked = useMemo(() => {
+    return userData?.bookmarks?.some((a) => a.url === article.url);
+  }, [userData?.bookmarks, article.url]);
 
-  const displayedCategory = 
-  // useMemo(() => {
-    // if (
-      regularNewsData.category &&
-      !["Home", "Favorites"].includes(regularNewsData.category) ?
-    // ) {
-       regularNewsData.category.toUpperCase() :
-    // } else {
-       defineCategory(
-        article.title.toLowerCase()
-      );
-    // }
-  // }, [regularNewsData.category, article.url]);
+  // Relative category - which can be sent to NewsAPI for articles filtering
+  const relativeCategoryOpened = useMemo(() => {
+    return !["Home", "Favorites"].includes(regularNewsData.category);
+  }, [regularNewsData.category]);
+
+  const displayedCategory = useMemo(() => {
+    if (article.category) return article.category.toUpperCase();
+    if (regularNewsData.category && relativeCategoryOpened) {
+      return regularNewsData.category.toUpperCase();
+    } else {
+      return defineCategory(article.title.toLowerCase());
+    }
+  }, [regularNewsData.category, article.url]);
+
+  const isBreakingNews = useMemo(() => {
+    return displayedCategory === "BREAKING";
+  }, [displayedCategory]);
 
   const toggleBookmark = async () => {
     const token = localStorage.getItem("token") || "";
-    if (!generalData.user || !token) return;
+    if (!userData || !token) return;
 
     try {
       const user = isBookmarked
         ? await removeBookmark(article.url, token)
-        : await addBookmark(article, token);
+        : await addBookmark(
+            relativeCategoryOpened
+              ? { ...article, category: regularNewsData.category }
+              : article,
+            token
+          );
 
       localStorage.setItem("user", JSON.stringify(user));
 
-      setGeneralData((prev) => ({ ...prev, user: user }));
+      setUserData(user);
       setRegularNewsData((prev) => {
         let newPage = prev.page;
         let newArticles = prev.articles;
@@ -57,7 +67,7 @@ const RegularNewsCard: React.FC<Props> = ({ article }) => {
           newBookmarks = user.bookmarks;
         } else {
           newBookmarks = user.bookmarks?.filter(
-            (a) =>
+            (a: Article) =>
               a.title.toLowerCase().includes(text) ||
               a.description?.toLowerCase().includes(text) ||
               false
@@ -91,8 +101,16 @@ const RegularNewsCard: React.FC<Props> = ({ article }) => {
           page: newPage,
         };
       });
-    } catch (err: any) {
-      console.error("Bookmark error:", err.message);
+    } catch (err: unknown) {
+
+      if (typeof err === 'string') {
+        console.error("Bookmark error:", err);
+      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+        console.error("Bookmark error:", (err as { message: string }).message);
+      } else {
+        console.error("Bookmark error:", 'Bookmark error: An unknown error occurred.');
+      }
+
       // setData(prev => ({
       //   ...prev,
       //   sectionOne: {
@@ -113,20 +131,20 @@ const RegularNewsCard: React.FC<Props> = ({ article }) => {
   // }
 
   return (
-      // <Suspense fallback={<div>Loading normal news...</div>}>
-    <div className={"article-card" + (displayedCategory === "BREAKING" ? " breaking-news" : "")}>
+    // <Suspense fallback={<div>Loading normal news...</div>}>
+    <div className={"article-card" + (isBreakingNews ? " breaking-news" : "")}>
       <img
-        src={article.urlToImage || "/images/default-image.png"}
+        src={article.urlToImage || "/images/default.png"}
         alt={article.title}
         height="140px"
         className="thumbnail"
       />
       <div className="article-info">
         {/* DODAT CATEGORY i LOGIKU ZA ODREDIT CATEGORY */}
-        {displayedCategory === "BREAKING" ? <div className="alert">BREAKING</div> : ""}
-        <p>{displayedCategory}</p>
+        {isBreakingNews ? <div className="alert">BREAKING</div> : ""}
+        <span>{displayedCategory}</span>
         <h3>{article.title}</h3>
-        <span className="source">{article.author}</span>
+        <p>{article.author}</p>
       </div>
       <button
         className={`bookmark-btn ${isBookmarked ? "active" : ""}`}
@@ -135,16 +153,21 @@ const RegularNewsCard: React.FC<Props> = ({ article }) => {
       >
         <Icon
           name="star"
-          fill={isBookmarked ? "yellow" : "#fff"}
-          stroke="#1D1D1B"
+          fill={isBookmarked ? colors.color_yellow_primary : colors.color_white_primary}
+          stroke={colors.color_black_secondary}
           width="15"
           height="15"
           viewBox="0 0 20 20"
+          alt={"Bookmark news article with title - " + "'" + article.title + "'"}
         />
       </button>
-      {displayedCategory === "PROGRAMMATIC/NATIVE AD" ? <div className="ad">AD</div> : ""}
+      {displayedCategory === "PROGRAMMATIC/NATIVE AD" ? (
+        <div className="ad">AD</div>
+      ) : (
+        ""
+      )}
     </div>
-          // </Suspense>
+    // </Suspense>
   );
 };
 

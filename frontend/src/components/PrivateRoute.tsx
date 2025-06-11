@@ -1,1 +1,0 @@
-// Stavit na Home da se samo logirani useri mogu koristit

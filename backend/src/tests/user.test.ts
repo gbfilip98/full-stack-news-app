@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import app from '../app.js'; // Your express instance
+import app from '../app.js'; // My express instance
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 describe('User Auth', () => {
   beforeAll(async () => {

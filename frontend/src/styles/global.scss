@@ -1,9 +1,17 @@
+// @font-face {
+//   font-family: 'Inter';
+//   src: url('/fonts/inter/Inter-Regular.woff2') format('woff2'),
+//        url('/fonts/inter/Inter-Regular.woff') format('woff');
+//   font-weight: 400;
+//   // letter-spacing: -0.1px;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter/Inter-Regular.woff2') format('woff2'),
-       url('/fonts/inter/Inter-Regular.woff') format('woff');
-  font-weight: 400;
-  letter-spacing: -0.1px;
+  font-family: InterVariable;
+  src: url("./InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -20,13 +28,22 @@
 // You can add more weights/styles as needed
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: InterVariable, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
-  // background-color: #f9f9f9;
   background-color: $color_gray_primary;
   color: $color_black_primary;
 }
 
 * {
   box-sizing: border-box;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
 }

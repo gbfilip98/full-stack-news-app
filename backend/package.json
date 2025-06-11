@@ -5,8 +5,7 @@
   "main": "/src/server.ts",
   "scripts": {
     "build": "tsc",
-    "start": "tsx src/server.ts",
-    "dev": "tsx watch src/server.ts",
+    "start": "tsx watch src/server.ts",
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"

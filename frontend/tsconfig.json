@@ -1,11 +1,50 @@
+// {
+//   "files": [],
+//   "references": [
+//     { "path": "./tsconfig.app.json" },
+//     { "path": "./tsconfig.node.json" }
+//   ]
+// }
+
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
-  // "compilerOptions": {
-  //   "rootDir": "./src",          // 👈 Ulazni kod se nalazi u src/
-  //   "outDir": "./build",         // 👈 OUTPUT ide u build/
-  // }
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+
+    /* Targets and environments */
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+
+    /* Module resolution (Vite/Bundler) */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+
+    /* React */
+    "jsx": "react-jsx",
+    "useDefineForClassFields": true,
+
+    /* Path alias */
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    /* Typings */
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+
+    /* Compiler behavior */
+    "skipLibCheck": true,
+    "noEmit": true,
+
+    /* Strictness / Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src", "src/tests/setupTests.ts", "vite.config.ts"]
 }

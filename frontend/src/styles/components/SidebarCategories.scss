@@ -6,6 +6,10 @@
   // background-color: #f3f3f3;
   width: 63px;
 
+  // @media screen and (max-width: 719px) {
+  //   display: none;
+  // }
+
   .category {
     background-color: transparent;
     opacity: 50%;
@@ -84,10 +88,10 @@
     align-items: center;
     gap: 2px;
 
-    p {
-      margin: 0px;
-      // color: $color_gray_secondary;
-    }
+    // p {
+    //   margin: 0px;
+    //   // color: $color_gray_secondary;
+    // }
 
     @media screen and (min-width: 1025px) {
       &:hover {

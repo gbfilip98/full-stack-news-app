@@ -1,25 +1,160 @@
 .banner-wrapper {
   background-color: $color_red_primary;
-  background-image: url("/images/mask-image.png");
+  background-image: url("/images/mask.png");
   background-repeat: no-repeat;
   background-position: 120% center;
   height: 60px;
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 13;
+
+  .logout-button {
+    background: transparent;
+    border: none;
+    padding: 0px;
+    position: absolute;
+    top: 20px;
+    right: 0px;
+
+    &.desktop {
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+
+      @media screen and (min-width: 720px) and (max-width: 1111px) {
+        right: 16px;
+      }
+
+      @media screen and (max-width: 719px) {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 719px) {
+    // removes banner from mobile homepage
+    display: none;
+  }
+
+  .banner-window-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12;
+
+    .banner-window {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 48px 64px;
+      border: none;
+      border-radius: 8px;
+      background: $color_white_primary;
+      color: $color_black_primary;
+
+      .banner-message {
+        width: 260px;
+        height: max-content;
+      }
+
+      button {
+        border: none;
+        background: transparent;
+        padding: 0px;
+        width: max-content;
+        height: max-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .logout-window-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12;
+
+    @media screen and (max-width: 600px) {
+      padding: 0 16px;
+    }
+
+    .logout-window {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+      position: relative;
+      padding: 48px 64px;
+      border: none;
+      border-radius: 8px;
+      background: $color_white_primary;
+      color: $color_black_primary;
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+        padding: 48px 0;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        button {
+          border: none;
+          background: $color_red_primary;
+          color: $color_white_primary;
+          font-weight: 500;
+          padding: 10px 15px;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
 
 .banner {
+  position: relative;
   height: 100%;
   max-width: 1095px;
   margin: 0 auto;
-  color: #fff;
+  color: $color_white_primary;
   text-align: center;
   display: flex;
   justify-content: space-between;
   padding: 0px;
   font-size: 1.1rem;
   font-weight: 400;
-//   border-bottom: 3px solid #005a99;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  //   border-bottom: 3px solid #005a99;
+  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media screen and (min-width: 720px) and (max-width: 1111px) {
+    padding: 0 16px;
+  }
 
   @media screen and (max-width: 719px) {
     img {
@@ -32,10 +167,10 @@
     justify-content: space-between;
     align-items: center;
     gap: 40px;
-    
-    p {
-        margin: 0px;
-    }
+
+    // p {
+    //     margin: 0px;
+    // }
 
     p:first-of-type {
       font-weight: 700;
@@ -57,23 +192,23 @@
     gap: 10px;
 
     button {
-        border: none;
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 20px;
-        cursor: pointer;
+      border: none;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      cursor: pointer;
     }
 
     button:first-of-type {
-        background: transparent;
-        color: #fff;
+      background: transparent;
+      color: $color_white_primary;
     }
 
     button:last-of-type {
-        background: #fff;
-        width: 69px;
-        height: 40px;
-        border-radius: 8px;
+      background: $color_white_primary;
+      width: 69px;
+      height: 40px;
+      border-radius: 8px;
     }
   }
 }

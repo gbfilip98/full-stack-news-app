@@ -26,11 +26,11 @@ export default [
         sourceType: "module",
       },
       globals: {
-        ...globals.node, // ✅ Node.js global variables
+        ...globals.node, // Node.js global variables
       },
     },
     rules: {
-      // Example rules (adjust to your preferences)
+      // Example rules
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_" },

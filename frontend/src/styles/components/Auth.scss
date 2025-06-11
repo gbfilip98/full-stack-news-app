@@ -1,55 +1,8 @@
-// .auth-container {
-//   max-width: 400px;
-//   margin: 60px auto;
-//   padding: 30px;
-//   background: #ffffff;
-//   border: 1px solid #ccc;
-//   border-radius: 8px;
-//   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-//   text-align: center;
-
-//   h2 {
-//     margin-bottom: 20px;
-//     color: #333;
-//   }
-
-//   form {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 12px;
-
-//     input {
-//       padding: 10px;
-//       border: 1px solid #ddd;
-//       border-radius: 6px;
-//     }
-
-//     button {
-//       padding: 10px;
-//       background-color: #007acc;
-//       color: #fff;
-//       border: none;
-//       border-radius: 6px;
-//       cursor: pointer;
-//     }
-
-//     .error-msg {
-//       color: red;
-//       margin-top: 10px;
-//     }
-
-//     .success-msg {
-//       color: green;
-//       margin-top: 10px;
-//     }
-//   }
-// }
-
 .auth-container {
-  max-width: 500px;
+  max-width: 400px;
   margin: 60px auto;
   padding: 30px;
-  background: #ffffff;
+  background: $color_white_primary;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
@@ -83,6 +36,10 @@
 
     .password-row {
       align-items: stretch;
+
+      @media screen and (max-width: 719px) {
+        flex-direction: column;
+      }
     }
 
     .password-wrapper {
@@ -101,6 +58,9 @@
         background: none;
         border: none;
         font-size: 1.1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
       }
     }
@@ -108,7 +68,8 @@
     button[type="submit"] {
       padding: 10px;
       background-color: $color_red_primary;
-      color: #fff;
+      color: $color_white_primary;
+      font-weight: 500;
       border: none;
       border-radius: 6px;
       cursor: pointer;

@@ -1,10 +1,15 @@
+import type { ILoginData } from '@/pages/SignIn';
+import type { IRegisterData } from '@/pages/SignUp';
+import type { Article } from '@/types/Article';
+import type { IUrl } from '@/types/Auth';
+import type { IToken } from '@/types/User';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://localhost:5000", // ✅ critical for proxy to kick in
+  baseURL: "http://localhost:5000", // critical for proxy to kick in - vite.config.ts
 });
 
-export const postService = async (apiEndpoint: string, payload: any) => {
+export const postService = async (apiEndpoint: string, payload: ILoginData | IRegisterData) => {
   try {
     // let configParams = {};
     // if (token) {
@@ -15,8 +20,12 @@ export const postService = async (apiEndpoint: string, payload: any) => {
 
     const response = await api.post(`${apiEndpoint}`, payload);
     return response.data;
-  } catch (error: any) {
-    return Promise.reject(error.response?.data);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const serverData = error.response?.data;
+      return Promise.reject(serverData || error.message);
+    }
+    return Promise.reject(error);
   }
 }
 
@@ -28,12 +37,16 @@ export const getService = async (apiEndpoint: string, token: string) => {
 
     const response = await api.get(`${apiEndpoint}`, configParams);
     return response.data;
-  } catch (error: any) {
-    return Promise.reject(error.response?.data);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const serverData = error.response?.data;
+      return Promise.reject(serverData || error.message);
+    }
+    return Promise.reject(error);
   }
 }
 
-export const patchService = async (apiEndpoint: string, payload: any, token: string) => {
+export const patchService = async (apiEndpoint: string, payload: Article | IUrl | IToken, token: string) => {
   try {
     const configParams = {
       headers: { authorization: `Bearer ${token}` },
@@ -41,14 +54,18 @@ export const patchService = async (apiEndpoint: string, payload: any, token: str
 
     const response = await api.patch(`${apiEndpoint}`, payload, configParams);
     return response.data;
-  } catch (error: any) {
-    return Promise.reject(error.response?.data);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const serverData = error.response?.data;
+      return Promise.reject(serverData || error.message);
+    }
+    return Promise.reject(error);
   }
 }
 
 export default api;
 
-// export const remove = async (apiEndpoint: string, payload: any, token: string) => {
+// export const deleteService = async (apiEndpoint: string, payload: any, token: string) => {
 //   try {
 //     const configParams = {
 //       headers: { authorization: `Bearer ${token}` },
@@ -60,50 +77,3 @@ export default api;
 //     return Promise.reject(error?.response);
 //   }
 // }
-
-// const api = axios.create({
-//   baseURL: 'http://localhost:5000/api', // Backend API base URL
-//   withCredentials: true,                // Needed if using cookies (for future auth flexibility)
-// });
-
-// // Attach JWT token to each request if available
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem('token');
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
-
-// export default api;
-
-// import axios, { type AxiosError, type AxiosInstance } from 'axios';
-
-// const api: AxiosInstance = axios.create({
-//   baseURL: 'http://localhost:5000/api', // Change for production
-//   withCredentials: true, // Enable cookie-based auth
-//   timeout: 10000,
-// });
-
-// // ✅ Global Response Error Interceptor
-// api.interceptors.response.use(
-//   response => response,
-//   (error: AxiosError) => {
-//     if (error.response) {
-//       const { status } = error.response;
-
-//       if (status === 401) {
-//         console.warn('Unauthorized, redirecting to login...');
-//         window.location.href = '/login';
-//       } else if (status === 403) {
-//         alert('Forbidden. Please verify your email.');
-//       } else if (status >= 500) {
-//         alert('Server error. Please try again later.');
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
-// export default api;

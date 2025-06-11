@@ -15,14 +15,13 @@ const defaultResponseData: IResponseData = {
   error: null,
 };
 
-const VerifyEmail = () => {
+const VerifyEmail: React.FunctionComponent = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
-  const token = new URLSearchParams(search).get("token");
   const [responseData, setResponseData] =
     useState<IResponseData>(defaultResponseData);
 
-  const handleVerification = async () => {
+  const handleVerification = async (token: string) => {
     try {
       const response = await verifyEmail(token || "");
       setResponseData({
@@ -33,20 +32,31 @@ const VerifyEmail = () => {
       setTimeout(() => {
         navigate("/sign-in");
       }, 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      let errorMessage = ""
+      if (typeof err === 'string') {
+        errorMessage = err;
+      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+        errorMessage = (err as { message: string }).message;
+      } else {
+        errorMessage = 'An unknown error occurred.';
+      }
+
       setResponseData({
         emailVerified: false,
         message: "",
-        error: err.message,
+        error: errorMessage,
       });
     }
   };
 
   useEffect(() => {
+    const token = new URLSearchParams(search).get("token");
+
     if (token) {
-      handleVerification();
+      handleVerification(token);
     }
-  }, [token]);
+  }, []);
 
   return (
     <div className="verify-container">

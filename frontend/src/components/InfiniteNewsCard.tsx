@@ -14,8 +14,8 @@ const InfiniteNewsCard: React.FunctionComponent<Props> = ({ article }) => {
   return (
     <div className="infinite-news-card">
       <div className="info">
-        <h3>{timeString}</h3>
-        <span className="source">{article.title}</span>
+        <span>{timeString}</span>
+        <h3>{article.title}</h3>
       </div>
     </div>
   );

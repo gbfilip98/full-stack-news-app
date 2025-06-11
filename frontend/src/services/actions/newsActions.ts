@@ -1,18 +1,8 @@
 import { getService } from '../api';
-import { type NewsApiResponse } from '@/types/NewsApiResponse';
-
-// export const login = async (payload: {
-//   email: string;
-//   password: string;
-// }) => {
-//   const response = await post('/auth/login', payload);
-//   const { token, user } = response.data;
-//   localStorage.setItem('token', token);
-//   return user as User;
-// };
+import { type NewsApiResponse } from '@/types/Article';
 
 export const fetchArticles = async ({
-  searchInput = "a",
+  searchInput = "",
   page = 1,
   pageSize = 16,
   category = "Home"

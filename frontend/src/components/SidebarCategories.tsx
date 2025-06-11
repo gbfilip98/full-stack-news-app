@@ -1,51 +1,58 @@
 import { ITEMS_PER_PAGE, useNewsContext } from "../context/NewsContext";
-import { fetchArticles } from "../services/actions/newsActions";
+// import { fetchArticles } from "../services/actions/newsActions";
 // import dummyArticles from '../data/dummyArticles.json';
 import SidebarCategory from "./SidebarCategory";
 import "../styles/components/SidebarCategories.scss";
 import { displayedCategories } from "@/data/constants";
+import { fetchRegularNewsData } from "@/utils/fetchNewsData";
+import type { Category } from "@/types/Context";
+import { scrollToTop } from "@/utils/scrollToTop";
 
 // export interface ICategory {
 //   icon: string;
 //   name: string;
 // }
 
-const SidebarCategories: React.FunctionComponent = () => {
-  const { generalData, setRegularNewsData } = useNewsContext();
+interface Window {
+  inWindow: boolean;
+}
 
-  const handleCategoryClick = async (category: string) => {
-    if (!category) return;
+const SidebarCategories: React.FunctionComponent<Window> = ({ inWindow }) => {
+  const { userData, setRegularNewsData } = useNewsContext();
 
-    setRegularNewsData((prev) => ({
-      ...prev,
-      category: category,
-      searchInput: "",
-      page: 1,
-      isLoading: true
-    }));
+  // const handleCategoryClick = async (category: string) => {
+  //   // if (!category) return;
 
-    try {
-      const response = await fetchArticles({
-        category: category,
-        page: 1,
-      });
+  //   setRegularNewsData((prev) => ({
+  //     ...prev,
+  //     category: category,
+  //     searchInput: "",
+  //     page: 1,
+  //     isLoading: true
+  //   }));
 
-      setRegularNewsData((prev) => ({
-        ...prev,
-        articles: response.articles,
-        totalArticles: response.totalResults,
-        isLoading: false,
-        error: null
-      }));
-    } catch (err: any) {
-      console.error("Error loading articles:", err.message);
-      setRegularNewsData((prev) => ({
-        ...prev,
-        error: err.message || "Failed to load articles",
-        isLoading: false
-      }));
-    }
-  };
+  //   try {
+  //     const response = await fetchArticles({
+  //       category: category,
+  //       page: 1,
+  //     });
+
+  //     setRegularNewsData((prev) => ({
+  //       ...prev,
+  //       articles: response.articles,
+  //       totalArticles: response.totalResults,
+  //       isLoading: false,
+  //       error: null
+  //     }));
+  //   } catch (err: any) {
+  //     console.error("Error loading articles:", err.message);
+  //     setRegularNewsData((prev) => ({
+  //       ...prev,
+  //       error: err.message || "Failed to load articles",
+  //       isLoading: false
+  //     }));
+  //   }
+  // };
 
   // const handleHomeClick = () => {
   //   setData(prev => ({
@@ -54,13 +61,28 @@ const SidebarCategories: React.FunctionComponent = () => {
   //   }));
   // };
 
-  const handleFavoritesClick = () => {
-    if (!generalData.user) return;
+  const handleCategoryClick = (categoryName: Category) => {
+    // if (!category) return;
+    scrollToTop();
 
     setRegularNewsData((prev) => ({
       ...prev,
-      articles: generalData.user!.bookmarks?.slice(0, ITEMS_PER_PAGE) || [], // ITEMS_PER_PAGE = 16;
-      totalArticles: generalData.user!.bookmarks?.length || 0,
+      category: categoryName,
+      searchInput: "",
+      page: 1,
+      isLoading: true
+    }));
+
+    fetchRegularNewsData({ setRegularNewsData, category: categoryName, searchInput: "", page: 1 })
+  };
+
+  const handleFavoritesClick = () => {
+    scrollToTop();
+
+    setRegularNewsData((prev) => ({
+      ...prev,
+      articles: userData!.bookmarks?.slice(0, ITEMS_PER_PAGE) || [], // ITEMS_PER_PAGE = 16;
+      totalArticles: userData!.bookmarks?.length || 0,
       page: 1,
       category: "Favorites",
       error: null
@@ -68,23 +90,29 @@ const SidebarCategories: React.FunctionComponent = () => {
   };
 
   return (
-    <aside className={"sidebar" + (generalData.windowOpened ? " window" : "")}>
-      {generalData.user && generalData.user.bookmarks?.length > 0 ? (
+    <aside className="sidebar">
+      <SidebarCategory
+        key="Home"
+        category={{ name: "Home", icon: "home" }}
+        inWindow={inWindow}
+        handleCategoryClick={() => handleCategoryClick("Home")}
+      />
+      {userData && userData.bookmarks?.length > 0 ? (
         <SidebarCategory
           key="Favorites"
-          categoryName="Favorites"
-          categoryIcon="star"
+          category={{ name: "Favorites", icon: "star"}}
+          inWindow={inWindow}
           handleCategoryClick={handleFavoritesClick}
         />
       ) : (
         ""
       )}
-      {displayedCategories.map((category) => (
+      {displayedCategories.map((category: Category) => (
         <SidebarCategory
           key={category}
-          categoryName={category}
-          categoryIcon={category.toLowerCase()}
-          handleCategoryClick={handleCategoryClick}
+          category={{ name: category, icon: category.toLowerCase()}}
+          inWindow={inWindow}
+          handleCategoryClick={() => handleCategoryClick(category)}
         />
       ))}
     </aside>

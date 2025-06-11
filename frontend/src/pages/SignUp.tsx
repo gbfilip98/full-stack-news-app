@@ -1,81 +1,16 @@
-// import React, { useState } from 'react';
-// import { register } from '../services/actions/authActions';
-// import '../styles/components/Auth.scss';
-
-// interface IFormData {
-//   firstName: string,
-//   lastName: string,
-//   email: string,
-//   password: string,
-// }
-
-// const defaultFormData: IFormData = {
-//   firstName: '',
-//   lastName: '',
-//   email: '',
-//   password: '',
-// }
-
-// const SignUp = () => {
-//   const [form, setForm] = useState<IFormData>(defaultFormData);
-//   const [message, setMessage] = useState<string>('');
-//   const [error, setError] = useState<string | null>(null);
-//   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setForm({ ...form, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     setIsProcessing(true);
-//     e.preventDefault();
-//     try {
-//       const response = await register(form);
-//       setMessage(response.message || 'Check your email to verify your account.');
-//       setError(null);
-//       setIsProcessing(false);
-//       // setForm({ ...defaultFormData });
-//       // console.log("response", response)
-//       // setTimeout(() => navigate('/sign-in'), 3000);
-//     } catch (err: any) {
-//       setError(err.response?.data?.message || 'Registration failed');
-//       setMessage("");
-//       setIsProcessing(false);
-//       // setForm({ ...defaultFormData });
-//     }
-//   };
-
-//   return (
-//     <div className="auth-container">
-//       <h2>Sign Up</h2>
-//       <form onSubmit={handleSubmit}>
-//         <input name="firstName" placeholder="First Name" onChange={handleChange} required />
-//         <input name="lastName" placeholder="Last Name" onChange={handleChange} required />
-//         <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
-//         <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-//         <button type="submit" disabled={isProcessing}>Register</button>
-//         {message && <p className="success-msg">{message}</p>}
-//         {error && <p className="error-msg">{error}</p>}
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default SignUp;
-
 import React, { useState } from "react";
 import { register } from "../services/actions/authActions";
 import "../styles/components/Auth.scss";
+import Icon from "@/components/Icon";
+import type { ILoginData } from "./SignIn";
 
-interface IFormData {
+export interface IRegisterData extends ILoginData {
   firstName: string;
   lastName: string;
-  email: string;
-  password: string;
   confirmPassword: string;
 }
 
-const defaultFormData: IFormData = {
+const defaultFormData: IRegisterData = {
   firstName: "",
   lastName: "",
   email: "",
@@ -83,8 +18,8 @@ const defaultFormData: IFormData = {
   confirmPassword: "",
 };
 
-const SignUp = () => {
-  const [form, setForm] = useState<IFormData>(defaultFormData);
+const SignUp: React.FunctionComponent = () => {
+  const [form, setForm] = useState<IRegisterData>(defaultFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -136,8 +71,18 @@ const SignUp = () => {
         response.message || "Check your email to verify your account."
       );
       setForm(defaultFormData);
-    } catch (err: any) {
-      setError(err.message || "Registration failed");
+    } catch (err: unknown) {
+      let errorMessage = ""
+
+      if (typeof err === 'string') {
+        errorMessage = err;
+      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+        errorMessage = (err as { message: string }).message;
+      } else {
+        errorMessage = 'Registration failed: An unknown error occurred.';
+      }
+
+      setError(errorMessage);
     } finally {
       setIsProcessing(false);
     }
@@ -189,7 +134,7 @@ const SignUp = () => {
               onClick={togglePasswordVisibility}
               aria-label="Toggle password visibility"
             >
-              {showPassword ? "🙈" : "👁️"}
+              <Icon name="eye" viewBox="0 0 24 24" alt="Show or hide password"/>
             </button>
           </div>
 
@@ -208,7 +153,7 @@ const SignUp = () => {
               onClick={togglePasswordVisibility}
               aria-label="Toggle password visibility"
             >
-              {showPassword ? "🙈" : "👁️"}
+              <Icon name="eye" viewBox="0 0 24 24" alt="Show or hide password"/>
             </button>
           </div>
         </div>

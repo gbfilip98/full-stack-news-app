@@ -9,10 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { useNewsContext } from "../context/NewsContext";
 import "../styles/components/Auth.scss";
 
-const SignIn = () => {
-  const { setGeneralData } = useNewsContext();
+export interface ILoginData {
+  email: string;
+  password: string;
+}
+
+const SignIn: React.FunctionComponent = () => {
+  const { setUserData } = useNewsContext();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState<ILoginData>({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
@@ -29,10 +34,20 @@ const SignIn = () => {
         setError("Please verify your email before logging in.");
         return;
       }
-      setGeneralData((prev) => ({ ...prev, user }));
+      setUserData(user);
       navigate("/");
-    } catch (err: any) {
-      setError(err.message || "Login failed");
+    } catch (err: unknown) {
+      let errorMessage = ""
+
+      if (typeof err === 'string') {
+        errorMessage = err;
+      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+        errorMessage = (err as { message: string }).message;
+      } else {
+        errorMessage = 'Login failed: An unknown error occurred.';
+      }
+
+      setError(errorMessage);
     } finally {
       setIsProcessing(false);
     }

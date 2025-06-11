@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNewsContext } from "../context/NewsContext";
-import { fetchArticles } from "../services/actions/newsActions";
 import { type Article } from "../types/Article";
 import Icon from "./Icon";
+import { fetchRegularNewsData } from "@/utils/fetchNewsData";
+import { scrollToTop } from "@/utils/scrollToTop";
+import { colors } from "@/data/constants";
 
 const Searchbar: React.FunctionComponent = () => {
   const {
-    generalData,
+    userData,
     regularNewsData,
+    isMobileDisplay,
+    displayedNews,
     setRegularNewsData,
+    setDisplayedNews
   } = useNewsContext();
   const [input, setInput] = useState<string>("");
 
@@ -16,7 +21,11 @@ const Searchbar: React.FunctionComponent = () => {
     setInput(e.target.value);
   };
 
-  const handleClick = async () => {
+  const handleSearchClick = () => {
+    scrollToTop();
+
+    if (isMobileDisplay && displayedNews !== "regular-news") setDisplayedNews("regular-news");
+    
     if (regularNewsData.category !== "Favorites") {
       setRegularNewsData((prev) => ({
         ...prev,
@@ -25,44 +34,18 @@ const Searchbar: React.FunctionComponent = () => {
         isLoading: true
       }));
 
-      try {
-        console.log("search", regularNewsData.category, input);
-
-        const response = await fetchArticles({
-          category: regularNewsData.category,
-          page: 1,
-          searchInput: input.trim(),
-        });
-
-        // console.log("response",
-        //   response
-        // )
-
-        setRegularNewsData((prev) => ({
-          ...prev,
-          articles: response.articles,
-          totalArticles: response.totalResults,
-          isLoading: false,
-          error: null
-        }));
-      } catch (err: any) {
-        console.error("Error loading articles:", err.message);
-        setRegularNewsData((prev) => ({
-          ...prev,
-          error: err.message || "Failed to load articles",
-          isLoading: false
-        }));
-      }
+      console.log("search", regularNewsData.category, input);
+      fetchRegularNewsData({ setRegularNewsData, category: regularNewsData.category, searchInput: input, page: 1 });
     } else {
       setRegularNewsData((prev) => {
-        let filteredFavorites: Article[] = [];
+        let filteredBookmarks: Article[] = [];
         const text = input.trim().toLowerCase();
 
         if (!text) {
-          filteredFavorites = generalData.user!.bookmarks || [];
+          filteredBookmarks = userData!.bookmarks || [];
         } else {
-          filteredFavorites = generalData.user!.bookmarks?.filter(
-            (a) =>
+          filteredBookmarks = userData!.bookmarks?.filter(
+            (a: Article) =>
               a.title.toLowerCase().includes(text) ||
               a.description?.toLowerCase().includes(text) ||
               false
@@ -71,8 +54,8 @@ const Searchbar: React.FunctionComponent = () => {
 
         return {
           ...prev,
-          articles: filteredFavorites,
-          totalArticles: filteredFavorites.length,
+          articles: filteredBookmarks,
+          totalArticles: filteredBookmarks.length,
           page: 1,
           searchInput: input
         };
@@ -87,17 +70,22 @@ const Searchbar: React.FunctionComponent = () => {
   console.log("regularNewsData", regularNewsData);
 
   return (
-    <div className="search-bar-container">
-      <Icon name="search" width={11.25} height={11.25} viewBox="0 0 20 20" fill="#1D1D1B"/> 
-      {/* OPACITY 40% */}
+    <div className="searchbar-container">
+      <Icon name="search" width={20} height={20} viewBox="0 0 20 20" fill={colors.color_black_secondary} className="search-icon" alt="Search news by text"/> 
       <input
         type="text"
-        placeholder="Search news..."
+        name="searchInput"
+        placeholder="Search news"
         value={input}
         onChange={handleChange}
         aria-label="Search news by text"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearchClick();
+          }
+        }}
       />
-      <button onClick={() => handleClick()}>Search</button>
+      <button onClick={handleSearchClick}>SEARCH</button>
     </div>
   );
 };

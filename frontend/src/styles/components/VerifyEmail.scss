@@ -8,7 +8,7 @@
 }
 
 .verify-box {
-  background: #fff;
+  background: $color_white_primary;
   padding: 2rem 2.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -21,22 +21,22 @@
   font-size: 1rem;
   margin-bottom: 1.5rem;
   &.success {
-    color: #2e7d32;
+    color: green;
   }
   &.error {
-    color: #c62828;
+    color: red;
   }
 }
 
 .verify-btn {
   padding: 10px 20px;
   background-color: $color_red_primary;
-  color: #fff;
+  color: $color_white_primary;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.2s ease-in;
+  // transition: background 0.2s ease-in;
 
   @media screen and (min-width: 1025px) {
     &:hover {
