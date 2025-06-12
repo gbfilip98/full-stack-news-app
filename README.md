@@ -54,4 +54,5 @@ By doing this, the number of API calls needed to display bookmarks is significan
       After registering, you will receive a verification link via email.
       Click the link to activate your account.
 13. Go to the /sign-in page, log in, and start using the site.
+
 **Note:** The Logout button is located beneath the banner message on desktop screen display.
