@@ -3,9 +3,10 @@ import Pagination from "./Pagination";
 import InfiniteNews from "./InfiniteNews";
 import RegularNews from "./RegularNews";
 import { useMemo } from "react";
+import { ITEMS_PER_PAGE } from "@/data/commonData";
 
 const NewsSection: React.FunctionComponent = () => {
-  const { regularNewsData, displayedNews } = useNewsContext();
+  const { userData, regularNewsData, displayedNews } = useNewsContext();
 
   const subtitle = useMemo(() => {
     return regularNewsData.category !== "Home"
@@ -25,19 +26,27 @@ const NewsSection: React.FunctionComponent = () => {
             : "")
         }
       >
-        {displayedNews === "all-news" || displayedNews === "regular-news" ? ( // maybe lazy load
+        {displayedNews === "all-news" || displayedNews === "regular-news" ? (
           <RegularNews />
         ) : (
           ""
         )}
-        {displayedNews === "all-news" || displayedNews === "infinite-news" ? (  // maybe lazy load
+        {displayedNews === "all-news" || displayedNews === "infinite-news" ? (
           <InfiniteNews />
         ) : (
           ""
         )}
       </div>
 
-      {regularNewsData.totalArticles > 16 && displayedNews && displayedNews !== "infinite-news" ? <Pagination /> : ""}
+      {(regularNewsData.totalArticles > ITEMS_PER_PAGE ||
+        (regularNewsData.category === "Favorites" &&
+          userData?.bookmarks.length && userData.bookmarks.length > ITEMS_PER_PAGE)) &&
+      displayedNews !== "infinite-news" &&
+      !regularNewsData.isLoading ? (
+        <Pagination />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

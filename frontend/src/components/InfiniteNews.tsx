@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNewsContext } from "../context/NewsContext";
+import { fetchInfiniteNewsData } from "@/utils/fetchNewsData";
 import InfiniteNewsCard from "./InfiniteNewsCard";
 import Icon from "./Icon";
-// import { sortArticles } from "@/utils/sortArticles";
+import type { IArticle } from "@/types/Article";
+import type { IInfiniteNewsContextData } from "@/types/Context";
+import { colors } from "@/data/commonData";
 import "../styles/components/InfiniteNews.scss";
-import { fetchInfiniteNewsData } from "@/utils/fetchNewsData";
-import { colors } from "@/data/constants";
-import type { Article } from "@/types/Article";
-// import dummyArticles from "../data/dummyArticles.json"
 
 const InfiniteNews: React.FunctionComponent = () => {
   const { infiniteNewsData, setInfiniteNewsData } = useNewsContext();
@@ -18,12 +17,12 @@ const InfiniteNews: React.FunctionComponent = () => {
   const handleLoadMore = () => {
     const pageSize = infiniteNewsData.pageSize + 10;
 
-    setInfiniteNewsData((prev) => ({
+    setInfiniteNewsData((prev: IInfiniteNewsContextData) => ({
       ...prev,
-      isLoading: true
+      isLoading: true,
     }));
 
-    fetchInfiniteNewsData({ setInfiniteNewsData, pageSize })
+    fetchInfiniteNewsData({ setInfiniteNewsData, pageSize });
   };
 
   useEffect(() => {
@@ -50,18 +49,19 @@ const InfiniteNews: React.FunctionComponent = () => {
     }
   }, [handleLoadMore]);
 
-  console.log("infiniteNewsData", infiniteNewsData);
-
   return (
     <section className="infinite-section-wrapper">
       <div className="infinite-section-title">
-        <Icon name="alert" fill={colors.color_red_primary} alt="Latest news"/>
+        <Icon name="alert" fill={colors.color_red_primary} alt="Latest news" />
         <h2 className="title">Latest news</h2>
       </div>
       <div className="infinite-section">
         <div className="infinite-news-grid">
-          {infiniteNewsData.articles?.map((article: Article, index: number) => (
-            <InfiniteNewsCard key={`${index}. infinite url - ` + article.url} article={article} />
+          {infiniteNewsData.articles?.map((article: IArticle, index: number) => (
+            <InfiniteNewsCard
+              key={`${index}. infinite url - ` + article.url}
+              article={article}
+            />
           ))}
         </div>
         {infiniteNewsData.isLoading ? <p>Loading...</p> : ""}
@@ -70,7 +70,13 @@ const InfiniteNews: React.FunctionComponent = () => {
       </div>
       <div className="see-more">
         <p>See all news</p>
-        <Icon name="arrow" width="8" height="20" viewBox="0 0 8 8" alt="See all news"/>
+        <Icon
+          name="arrow"
+          width="8"
+          height="20"
+          viewBox="0 0 8 8"
+          alt="See all news"
+        />
       </div>
     </section>
   );

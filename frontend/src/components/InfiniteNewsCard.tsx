@@ -1,15 +1,16 @@
-import { type Article } from "../types/Article";
+import { useMemo } from "react";
+import { type ISingleArticle } from "../types/Article";
 
-interface Props {
-  article: Article;
-}
-
-const InfiniteNewsCard: React.FunctionComponent<Props> = ({ article }) => {
-  const timeString = new Date(article.publishedAt).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  });
+const InfiniteNewsCard: React.FunctionComponent<ISingleArticle> = ({
+  article,
+}) => {
+  const timeString = useMemo(() => {
+    return new Date(article.publishedAt).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  }, [article.publishedAt]);
 
   return (
     <div className="infinite-news-card">

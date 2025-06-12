@@ -1,7 +1,7 @@
 import { useNewsContext } from "../context/NewsContext";
 import RegularNewsCard from "./RegularNewsCard";
+import type { IArticle } from "@/types/Article";
 import "../styles/components/RegularNews.scss";
-import type { Article } from "@/types/Article";
 
 const RegularNews: React.FunctionComponent = () => {
   const { regularNewsData } = useNewsContext();
@@ -17,7 +17,7 @@ const RegularNews: React.FunctionComponent = () => {
           {regularNewsData.articles?.length === 0 ? (
             <p>No matching articles found.</p>
           ) : (
-            regularNewsData.articles?.map((article: Article, index: number) => (
+            regularNewsData.articles?.map((article: IArticle, index: number) => (
               <RegularNewsCard
                 key={`${index}. regular url - ` + article.url}
                 article={article}

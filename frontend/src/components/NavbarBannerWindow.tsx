@@ -1,13 +1,11 @@
 import Icon from "./Icon";
 
-interface Props {
+interface IProps {
   setBannerVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setMessageOpened: React.Dispatch<React.SetStateAction<boolean>>;
-
-  // (bannerVisible: boolean) => void;
 }
 
-const BannerWindowDesktop: React.FunctionComponent<Props> = ({
+const NavbarBannerWindow: React.FunctionComponent<IProps> = ({
   setBannerVisible,
   setMessageOpened,
 }) => {
@@ -20,7 +18,7 @@ const BannerWindowDesktop: React.FunctionComponent<Props> = ({
             setMessageOpened(false);
           }}
         >
-          <Icon name="close" width="20" height="20" alt="Close Banner" />
+          <Icon name="close" width="20" height="20" alt="Close banner" />
         </button>
         <div className="banner-message">
           To make this your homepage:
@@ -37,4 +35,4 @@ const BannerWindowDesktop: React.FunctionComponent<Props> = ({
   );
 };
 
-export default BannerWindowDesktop;
+export default NavbarBannerWindow;

@@ -3,12 +3,7 @@
   flex-direction: column;
   gap: 0px;
   padding: 25px 0 0;
-  // background-color: #f3f3f3;
   width: 63px;
-
-  // @media screen and (max-width: 719px) {
-  //   display: none;
-  // }
 
   .category {
     background-color: transparent;
@@ -24,26 +19,6 @@
       }
     }
 
-    // svg {
-    //   path {
-    //     // stroke: $color_black_secondary;
-    //     fill: $color_black_secondary;
-    //   }
-    //   polygon {
-    //     fill: $color_black_secondary;
-    //   }
-    // }
-
-
-    // &:hover {
-    //   fill: gold;
-    //   stroke: black;
-    // }
-
-    // .svgr {
-    //   stroke: $color_black_secondary;
-    // }
-
     &.chosen {
       background-color: $color_white_primary;
       opacity: 100%;
@@ -51,20 +26,6 @@
       p {
         color: $color_red_primary;
       }
-
-      // .svgr {
-      //   stroke: $color_red_primary;
-      // }
-
-      // svg {
-      //   path {
-      //     // stroke: $color_red_primary;
-      //     fill: $color_red_primary;
-      //   }
-      //   polygon {
-      //     fill: $color_red_primary;
-      //   }
-      // }
     }
   }
 
@@ -72,15 +33,13 @@
     background: none;
     border: none;
     cursor: pointer;
-    // font-size: 1rem;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: $font_weight_bold;
     line-height: 14px;
     padding: 14px 15px 12px;
     height: 63px;
     width: 63px;
     border-radius: 5px;
-    // text-align: left;
 
     display: flex;
     flex-direction: column;
@@ -88,16 +47,10 @@
     align-items: center;
     gap: 2px;
 
-    // p {
-    //   margin: 0px;
-    //   // color: $color_gray_secondary;
-    // }
-
     @media screen and (min-width: 1025px) {
       &:hover {
         background-color: $color_gray_secondary;
       }
     }
-    
   }
 }

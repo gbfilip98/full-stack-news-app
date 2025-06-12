@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
-import { UserDocument } from '../types/User.js';
-import { Article } from '../types/Article';
+import mongoose from "mongoose";
+import { IUserDocument } from "../types/User.js";
+import { IArticle } from "../types/Article";
 
-const ArticleSchema = new mongoose.Schema<Article>({
+const ArticleSchema = new mongoose.Schema<IArticle>({
   source: {
     id: { type: String, default: null },
     name: String,
@@ -17,29 +17,29 @@ const ArticleSchema = new mongoose.Schema<Article>({
   category: { type: String, default: null },
 });
 
-const UserSchema = new mongoose.Schema<UserDocument>({
+const UserSchema = new mongoose.Schema<IUserDocument>({
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   isVerified: {
     type: Boolean,
-    default: false
+    default: false,
   },
   bookmarks: [ArticleSchema],
 });
 
-export default mongoose.model<UserDocument>('User', UserSchema);
+export default mongoose.model<IUserDocument>("User", UserSchema);

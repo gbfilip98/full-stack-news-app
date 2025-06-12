@@ -1,12 +1,10 @@
-// src/types/Article.ts
-
-export interface ArticleSource {
+export interface IArticleSource {
   id: string | null;
   name: string;
 }
 
-export interface Article {
-  source: ArticleSource;
+export interface IArticle {
+  source: IArticleSource;
   author: string | null;
   title: string;
   description: string | null;
@@ -17,8 +15,8 @@ export interface Article {
   category: string | null;
 }
 
-export interface NewsApiResponse {
+export interface INewsApiResponse {
   status: string;
   totalResults: number;
-  articles: Article[];
+  articles: IArticle[];
 }

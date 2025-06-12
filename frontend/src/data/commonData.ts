@@ -1,5 +1,7 @@
 import type { Category } from "@/types/Context";
 
+export const ITEMS_PER_PAGE = 16;
+
 export const displayedCategories: Category[] = [
   "Business",
   "General",
@@ -10,17 +12,8 @@ export const displayedCategories: Category[] = [
 ];
 
 export const categoryKeywordMap: Record<string, string[]> = {
-  "breaking news": [
-    "breaking news",
-  ],
-  "advert": [
-    "advert",
-    "ad",
-    "ads",
-    "advertisement",
-    "advertising",
-    "commercial",
-  ],
+  "breaking news": ["breaking news"],
+  "advert": ["advert", "ad", "ads", "advertisement", "advertising", "commercial"],
   "tech": [
     "tech",
     "AI",
@@ -137,15 +130,10 @@ export const categoryKeywordMap: Record<string, string[]> = {
 
 export const colors = {
   color_black_primary: "#111",
-  // color_blue_primary: "#1E71BB",
   color_gray_primary: "#F4F5F8",
   color_red_primary: "#BB1E1E",
   color_white_primary: "#FFF",
-  color_yellow_primary: "#FFFF00",
+  color_yellow_primary: "#FFE135",
 
   color_black_secondary: "#1D1D1B",
-  // color_gray_secondary: "#DEDEDE",
-  // color_red_secondary: "#B21919",
-
-  // color_gray_ternary: "#8D8D8C"
 };

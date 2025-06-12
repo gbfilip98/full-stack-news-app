@@ -1,14 +1,14 @@
-import { type Article } from './Article';
+import { type IArticle } from "./Article";
 
-export interface User {
+export interface IUser {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
   isVerified: boolean;
-  bookmarks: Article[]; // bookmarked articles (favorites)
+  bookmarks: IArticle[]; // bookmarked articles (favorites) by certain user
 }
 
-export interface IToken {
-  token: string;
+export interface IUrl {
+  url: string;
 }

@@ -1,91 +1,48 @@
-import { ITEMS_PER_PAGE, useNewsContext } from "../context/NewsContext";
-// import { fetchArticles } from "../services/actions/newsActions";
-// import dummyArticles from '../data/dummyArticles.json';
+import { useNewsContext } from "../context/NewsContext";
 import SidebarCategory from "./SidebarCategory";
-import "../styles/components/SidebarCategories.scss";
-import { displayedCategories } from "@/data/constants";
 import { fetchRegularNewsData } from "@/utils/fetchNewsData";
-import type { Category } from "@/types/Context";
+import type { Category, IRegularNewsContextData } from "@/types/Context";
 import { scrollToTop } from "@/utils/scrollToTop";
+import { displayedCategories, ITEMS_PER_PAGE } from "@/data/commonData";
+import { useCallback } from "react";
+import "../styles/components/SidebarCategories.scss";
 
-// export interface ICategory {
-//   icon: string;
-//   name: string;
-// }
-
-interface Window {
+interface IProps {
   inWindow: boolean;
 }
 
-const SidebarCategories: React.FunctionComponent<Window> = ({ inWindow }) => {
+const SidebarCategories: React.FunctionComponent<IProps> = ({ inWindow }) => {
   const { userData, setRegularNewsData } = useNewsContext();
 
-  // const handleCategoryClick = async (category: string) => {
-  //   // if (!category) return;
-
-  //   setRegularNewsData((prev) => ({
-  //     ...prev,
-  //     category: category,
-  //     searchInput: "",
-  //     page: 1,
-  //     isLoading: true
-  //   }));
-
-  //   try {
-  //     const response = await fetchArticles({
-  //       category: category,
-  //       page: 1,
-  //     });
-
-  //     setRegularNewsData((prev) => ({
-  //       ...prev,
-  //       articles: response.articles,
-  //       totalArticles: response.totalResults,
-  //       isLoading: false,
-  //       error: null
-  //     }));
-  //   } catch (err: any) {
-  //     console.error("Error loading articles:", err.message);
-  //     setRegularNewsData((prev) => ({
-  //       ...prev,
-  //       error: err.message || "Failed to load articles",
-  //       isLoading: false
-  //     }));
-  //   }
-  // };
-
-  // const handleHomeClick = () => {
-  //   setData(prev => ({
-  //     ...prev,
-  //     sectionOne: { ...prev.sectionOne, articles: dummyArticles, category: "home" },
-  //   }));
-  // };
-
-  const handleCategoryClick = (categoryName: Category) => {
-    // if (!category) return;
+  const handleCategoryClick = useCallback((categoryName: Category) => {
     scrollToTop();
 
-    setRegularNewsData((prev) => ({
+    setRegularNewsData((prev: IRegularNewsContextData) => ({
       ...prev,
       category: categoryName,
       searchInput: "",
       page: 1,
-      isLoading: true
+      isLoading: true,
     }));
 
-    fetchRegularNewsData({ setRegularNewsData, category: categoryName, searchInput: "", page: 1 })
-  };
+    fetchRegularNewsData({
+      setRegularNewsData,
+      category: categoryName,
+      searchInput: "",
+      page: 1,
+    });
+  }, []);
 
   const handleFavoritesClick = () => {
     scrollToTop();
 
-    setRegularNewsData((prev) => ({
+    setRegularNewsData((prev: IRegularNewsContextData) => ({
       ...prev,
-      articles: userData!.bookmarks?.slice(0, ITEMS_PER_PAGE) || [], // ITEMS_PER_PAGE = 16;
+      articles: userData!.bookmarks?.slice(0, ITEMS_PER_PAGE) || [],
       totalArticles: userData!.bookmarks?.length || 0,
       page: 1,
       category: "Favorites",
-      error: null
+      error: null,
     }));
   };
 
@@ -100,7 +57,7 @@ const SidebarCategories: React.FunctionComponent<Window> = ({ inWindow }) => {
       {userData && userData.bookmarks?.length > 0 ? (
         <SidebarCategory
           key="Favorites"
-          category={{ name: "Favorites", icon: "star"}}
+          category={{ name: "Favorites", icon: "star" }}
           inWindow={inWindow}
           handleCategoryClick={handleFavoritesClick}
         />
@@ -110,7 +67,7 @@ const SidebarCategories: React.FunctionComponent<Window> = ({ inWindow }) => {
       {displayedCategories.map((category: Category) => (
         <SidebarCategory
           key={category}
-          category={{ name: category, icon: category.toLowerCase()}}
+          category={{ name: category, icon: category.toLowerCase() }}
           inWindow={inWindow}
           handleCategoryClick={() => handleCategoryClick(category)}
         />

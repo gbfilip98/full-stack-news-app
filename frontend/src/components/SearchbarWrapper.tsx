@@ -1,23 +1,17 @@
+import { useMemo } from "react";
 import Icon from "./Icon";
 import Searchbar from "./Searchbar";
-// import { lazy, Suspense, useState } from "react";
-// import { colors } from "@/data/constants";
-// import Icon from "./Icon";
 
-// const TopbarWindowMobile = lazy(() => import("./TopbarWindowMobile"));
-// const LogoutWindow = lazy(() => import("./LogoutWindow"));
-
-interface Window {
-  // inWindow?: boolean;
+interface IProps {
   setTopbarWindowOpened?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchbarAndTitle: React.FunctionComponent<Window> = ({
+const SearchbarWrapper: React.FunctionComponent<IProps> = ({
   setTopbarWindowOpened,
 }) => {
-  // const [topbarWindowOpened, setTopbarWindowOpened] = useState<boolean>(false);
-  // const [logoutWindowOpened, setLogoutWindowOpened] = useState<boolean>(false);
-  const inWindow = setTopbarWindowOpened ? false : true;
+  const inWindow = useMemo(() => {
+    return setTopbarWindowOpened ? false : true;
+  }, []);
 
   return (
     <>
@@ -49,4 +43,4 @@ const SearchbarAndTitle: React.FunctionComponent<Window> = ({
     </>
   );
 };
-export default SearchbarAndTitle;
+export default SearchbarWrapper;

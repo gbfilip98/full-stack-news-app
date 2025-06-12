@@ -1,49 +1,47 @@
 import { useNewsContext } from "@/context/NewsContext";
 import Icon from "./Icon";
-import { colors } from "@/data/constants";
+import { colors } from "@/data/commonData";
+import { useMemo } from "react";
 
-interface Category {
+interface ICategory {
   name: string;
   icon: string;
 }
 
-interface Props {
-  category: Category;
+interface IProps {
+  category: ICategory;
   handleCategoryClick: (categoryName: string) => void;
   inWindow: boolean;
 }
 
-const SidebarCategory: React.FunctionComponent<Props> = ({
+const SidebarCategory: React.FunctionComponent<IProps> = ({
   category,
   handleCategoryClick,
-  inWindow
+  inWindow,
 }) => {
   const { regularNewsData } = useNewsContext();
-  const isChosen = regularNewsData.category === category.name;
-  const fill = isChosen
-    ? colors.color_red_primary
-    : category.name === "Favorites"
-    ? colors.color_yellow_primary
-    : colors.color_black_secondary;
+  const chosenAsCategory = useMemo(() => {
+    return regularNewsData.category === category.name;
+  }, [regularNewsData.category, category.name]);
+  const fill = useMemo(() => {
+    return chosenAsCategory
+      ? colors.color_red_primary
+      : category.name === "Favorites"
+      ? colors.color_yellow_primary
+      : colors.color_black_secondary;
+  }, [chosenAsCategory, regularNewsData.category, category.name]);
 
   return (
     <button
       onClick={() => handleCategoryClick(category.name)}
-      className={"category" + (isChosen ? " chosen" : "")}
+      className={"category" + (chosenAsCategory ? " chosen" : "")}
     >
-      {/* {category.charAt(0).toUpperCase() + category.slice(1)} */}
-      {/* <i>{category.icon || "📂"}</i> */}
-      {/* <img 
-        src={`/src/assets/icons/${categoryIcon}.svg`}
-        alt={categoryName}
-        height="20px"
-      /> */}
       <Icon
         name={category.icon}
         fill={fill}
         stroke={
           category.name === "Favorites"
-            ? isChosen
+            ? chosenAsCategory
               ? colors.color_red_primary
               : colors.color_black_secondary
             : undefined

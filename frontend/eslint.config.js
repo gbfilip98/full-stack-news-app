@@ -6,10 +6,10 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   {
-    ignores: ["dist/**"], // <-- This tells ESLint to ignore /dist
+    ignores: ["dist/**"], // This tells ESLint to ignore /dist
   },
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    files: ["**/*.{js,ts,tsx}"],
     plugins: {
       js,
       react: pluginReact,

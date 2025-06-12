@@ -1,41 +1,21 @@
-// import { fetchArticles } from "@/services/actions/newsActions";
+import { fetchArticles } from "@/services/actions/newsActions";
 import type {
-  Category,
-  InfiniteNewsContextData,
-  RegularNewsContextData,
+  IInfiniteNewsFetchData,
+  IRegularNewsFetchData,
 } from "@/types/Context";
-import dummyArticles from "../data/dummyArticles.json"
-
-interface RegularNewsData {
-  setRegularNewsData: React.Dispatch<
-    React.SetStateAction<RegularNewsContextData>
-  >;
-  category: Category;
-  searchInput: string;
-  page: number;
-}
-
-interface InfiniteNewsData {
-  setInfiniteNewsData: React.Dispatch<
-    React.SetStateAction<InfiniteNewsContextData>
-  >;
-  pageSize: number;
-}
 
 export const fetchRegularNewsData = async ({
   setRegularNewsData,
-  // category,
-  // searchInput,
+  category,
+  searchInput,
   page,
-}: RegularNewsData) => {
+}: IRegularNewsFetchData) => {
   try {
-    // const response = await fetchArticles({
-    //   category: category,
-    //   searchInput: searchInput.trim(),
-    //   page: page,
-    // });
-
-    const response = {articles: dummyArticles, totalResults: 10};
+    const response = await fetchArticles({
+      category: category,
+      searchInput: searchInput.trim(),
+      page: page,
+    });
 
     setRegularNewsData((prev) => ({
       ...prev,
@@ -46,13 +26,13 @@ export const fetchRegularNewsData = async ({
       error: null,
     }));
   } catch (err: unknown) {
-    let errorMessage = ""
-    if (typeof err === 'string') {
+    let errorMessage = "";
+    if (typeof err === "string") {
       errorMessage = err;
-    } else if (typeof err === 'object' && err !== null && 'message' in err) {
+    } else if (typeof err === "object" && err !== null && "message" in err) {
       errorMessage = (err as { message: string }).message;
     } else {
-      errorMessage = 'Failed to load articles: an unknown error occurred.';
+      errorMessage = "Failed to load articles: an unknown error occurred.";
     }
 
     setRegularNewsData((prev) => ({
@@ -66,15 +46,11 @@ export const fetchRegularNewsData = async ({
 export const fetchInfiniteNewsData = async ({
   setInfiniteNewsData,
   pageSize,
-}: InfiniteNewsData) => {
+}: IInfiniteNewsFetchData) => {
   try {
-    // const response = await fetchArticles({
-    //   pageSize: pageSize,
-    // });
-
-    const response = {articles: dummyArticles};
-
-    console.log("IN IN")
+    const response = await fetchArticles({
+      pageSize: pageSize,
+    });
 
     setInfiniteNewsData({
       articles: response.articles || [],
@@ -83,13 +59,13 @@ export const fetchInfiniteNewsData = async ({
       error: null,
     });
   } catch (err: unknown) {
-    let errorMessage = ""
-    if (typeof err === 'string') {
+    let errorMessage = "";
+    if (typeof err === "string") {
       errorMessage = err;
-    } else if (typeof err === 'object' && err !== null && 'message' in err) {
+    } else if (typeof err === "object" && err !== null && "message" in err) {
       errorMessage = (err as { message: string }).message;
     } else {
-      errorMessage = 'Failed to load articles: an unknown error occurred.';
+      errorMessage = "Failed to load articles: an unknown error occurred.";
     }
 
     setInfiniteNewsData((prev) => ({

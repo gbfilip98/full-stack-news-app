@@ -7,7 +7,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "start": "vite",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .js,.ts,.tsx",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "cypress": "cypress open",

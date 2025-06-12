@@ -1,14 +1,11 @@
 import { useNewsContext } from "@/context/NewsContext";
 import { useNavigate } from "react-router-dom";
 
-interface Props {
-  // handleLogout: () => void;
+interface IProps {
   setLogoutWindowOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  // (bannerVisible: boolean) => void;
 }
 
-const LogoutWindow: React.FunctionComponent<Props> = ({
-  // handleLogout,
+const LogoutWindow: React.FunctionComponent<IProps> = ({
   setLogoutWindowOpened,
 }) => {
   const { handleLogout } = useNewsContext();

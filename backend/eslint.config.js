@@ -11,10 +11,10 @@ export default [
   ...tseslint.configs.recommended,
 
   {
-    ignores: ["dist/**"], // <-- This tells ESLint to ignore /dist
+    ignores: ["dist/**"], // This tells ESLint to ignore /dist
   },
   {
-    files: ["**/*.ts", "**/*.tsx"],
+    files: ["**/*.ts"],
     plugins: {
       "@typescript-eslint": tseslint.plugin,
     },

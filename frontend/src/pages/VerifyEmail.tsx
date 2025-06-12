@@ -1,25 +1,17 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../services/actions/authActions";
+import { useNewsContext } from "@/context/NewsContext";
+import type { IVerifyEmailData } from "@/types/Auth";
+import { defaultResponseData } from "@/data/authData";
 import "../styles/components/VerifyEmail.scss";
 
-interface IResponseData {
-  emailVerified: boolean;
-  message: string;
-  error: string | null;
-}
-
-const defaultResponseData: IResponseData = {
-  emailVerified: false,
-  message: "Verifying email...",
-  error: null,
-};
-
 const VerifyEmail: React.FunctionComponent = () => {
+  const { userData } = useNewsContext();
   const { search } = useLocation();
   const navigate = useNavigate();
   const [responseData, setResponseData] =
-    useState<IResponseData>(defaultResponseData);
+    useState<IVerifyEmailData>(defaultResponseData);
 
   const handleVerification = async (token: string) => {
     try {
@@ -29,17 +21,14 @@ const VerifyEmail: React.FunctionComponent = () => {
         message: response.message,
         error: null,
       });
-      setTimeout(() => {
-        navigate("/sign-in");
-      }, 2000);
     } catch (err: unknown) {
-      let errorMessage = ""
-      if (typeof err === 'string') {
+      let errorMessage = "";
+      if (typeof err === "string") {
         errorMessage = err;
-      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+      } else if (typeof err === "object" && err !== null && "message" in err) {
         errorMessage = (err as { message: string }).message;
       } else {
-        errorMessage = 'An unknown error occurred.';
+        errorMessage = "An unknown error occurred.";
       }
 
       setResponseData({
@@ -57,6 +46,10 @@ const VerifyEmail: React.FunctionComponent = () => {
       handleVerification(token);
     }
   }, []);
+
+  useEffect(() => {
+    if (userData) navigate("/");
+  }, [userData]);
 
   return (
     <div className="verify-container">

@@ -1,24 +1,20 @@
-import { type Article } from "../types/Article";
-import { ITEMS_PER_PAGE, useNewsContext } from "../context/NewsContext";
+import { type IArticle, type ISingleArticle } from "../types/Article";
+import { useNewsContext } from "../context/NewsContext";
 import { addBookmark, removeBookmark } from "../services/actions/userActions";
 import { defineCategory } from "@/utils/defineCategory";
 import Icon from "./Icon";
 import { useMemo } from "react";
-import { colors } from "@/data/constants";
+import type { IRegularNewsContextData } from "@/types/Context";
+import { colors, ITEMS_PER_PAGE } from "@/data/commonData";
 
-interface Props {
-  article: Article;
-}
-
-// const BreakingNewsCard = lazy(() => import('./BreakingNewsCard'));
-// const NormalNewsCard = lazy(() => import('./NormalNewsCard'));
-
-const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
+const RegularNewsCard: React.FunctionComponent<ISingleArticle> = ({
+  article,
+}) => {
   const { userData, regularNewsData, setUserData, setRegularNewsData } =
     useNewsContext();
 
   const isBookmarked = useMemo(() => {
-    return userData?.bookmarks?.some((a) => a.url === article.url);
+    return userData?.bookmarks?.some((a: IArticle) => a.url === article.url);
   }, [userData?.bookmarks, article.url]);
 
   // Relative category - which can be sent to NewsAPI for articles filtering
@@ -33,11 +29,16 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
     } else {
       return defineCategory(article.title.toLowerCase());
     }
-  }, [regularNewsData.category, article.url]);
+  }, [regularNewsData.category, article.url, relativeCategoryOpened]);
 
   const isBreakingNews = useMemo(() => {
     return displayedCategory === "BREAKING";
-  }, [displayedCategory]);
+  }, [
+    displayedCategory,
+    regularNewsData.category,
+    article.url,
+    relativeCategoryOpened,
+  ]);
 
   const toggleBookmark = async () => {
     const token = localStorage.getItem("token") || "";
@@ -56,18 +57,18 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
       localStorage.setItem("user", JSON.stringify(user));
 
       setUserData(user);
-      setRegularNewsData((prev) => {
+      setRegularNewsData((prev: IRegularNewsContextData) => {
         let newPage = prev.page;
         let newArticles = prev.articles;
         let newTotalArticles = prev.totalArticles;
 
-        let newBookmarks: Article[] = [];
+        let newBookmarks: IArticle[] = [];
         const text = prev.searchInput.trim().toLowerCase();
         if (!text) {
           newBookmarks = user.bookmarks;
         } else {
           newBookmarks = user.bookmarks?.filter(
-            (a: Article) =>
+            (a: IArticle) =>
               a.title.toLowerCase().includes(text) ||
               a.description?.toLowerCase().includes(text) ||
               false
@@ -87,10 +88,12 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
             newPage--;
           }
 
+          // newBookmarks' array needs to be sliced
+          // because displayed data.firstSection.articles' length cannot be longer than ITEMS_PER_PAGE
           newArticles = newBookmarks?.slice(
             startingIndex,
             startingIndex + ITEMS_PER_PAGE
-          ); // newBookmarks' array needs to be sliced because displayed data.firstSection.articles' length can't be longer than ITEMS_PER_PAGE
+          );
           newTotalArticles = newBookmarks?.length;
         }
 
@@ -102,36 +105,24 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
         };
       });
     } catch (err: unknown) {
+      let errorMessage = "";
 
-      if (typeof err === 'string') {
-        console.error("Bookmark error:", err);
-      } else if (typeof err === 'object' && err !== null && 'message' in err) {
-        console.error("Bookmark error:", (err as { message: string }).message);
+      if (typeof err === "string") {
+        errorMessage = "Bookmark error:" + err;
+      } else if (typeof err === "object" && err !== null && "message" in err) {
+        errorMessage = "Bookmark error:" + (err as { message: string }).message;
       } else {
-        console.error("Bookmark error:", 'Bookmark error: An unknown error occurred.');
+        errorMessage = "Bookmark error: An unknown error occurred.";
       }
 
-      // setData(prev => ({
-      //   ...prev,
-      //   sectionOne: {
-      //     ...prev.sectionOne,
-      //     error: err.message || "Bookmark error"
-      //   }
-      // }));
+      setRegularNewsData((prev: IRegularNewsContextData) => ({
+        ...prev,
+        error: errorMessage,
+      }));
     }
   };
 
-  // article.urlToImage?.replace(/\.(jpg|png)$/, '.webp')
-  // if (displayedCategory === "BREAKING") {
-  //   return (
-  //     // <Suspense fallback={<div>Loading breaking news...</div>}>
-  //       <BreakingNewsCard article={article} isBookmarked={isBookmarked} toggleBookmark={toggleBookmark}/>
-  //     // </Suspense>
-  //   );
-  // }
-
   return (
-    // <Suspense fallback={<div>Loading normal news...</div>}>
     <div className={"article-card" + (isBreakingNews ? " breaking-news" : "")}>
       <img
         src={article.urlToImage || "/images/default.png"}
@@ -140,7 +131,6 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
         className="thumbnail"
       />
       <div className="article-info">
-        {/* DODAT CATEGORY i LOGIKU ZA ODREDIT CATEGORY */}
         {isBreakingNews ? <div className="alert">BREAKING</div> : ""}
         <span>{displayedCategory}</span>
         <h3>{article.title}</h3>
@@ -153,12 +143,18 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
       >
         <Icon
           name="star"
-          fill={isBookmarked ? colors.color_yellow_primary : colors.color_white_primary}
+          fill={
+            isBookmarked
+              ? colors.color_yellow_primary
+              : colors.color_white_primary
+          }
           stroke={colors.color_black_secondary}
-          width="15"
-          height="15"
-          viewBox="0 0 20 20"
-          alt={"Bookmark news article with title - " + "'" + article.title + "'"}
+          width={isBreakingNews ? "22" : "18"}
+          height={isBreakingNews ? "22" : "18"}
+          viewBox={isBreakingNews ? "3 5 20 20" : "0 0 20 24"}
+          alt={
+            "Bookmark news article with title - " + "'" + article.title + "'"
+          }
         />
       </button>
       {displayedCategory === "PROGRAMMATIC/NATIVE AD" ? (
@@ -167,7 +163,6 @@ const RegularNewsCard: React.FunctionComponent<Props> = ({ article }) => {
         ""
       )}
     </div>
-    // </Suspense>
   );
 };
 

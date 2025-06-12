@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useNewsContext } from "../context/NewsContext";
 import MainSection from "../components/MainSection";
 import Topbar from "../components/Topbar";
-import Banner from "../components/Banner";
+import Navbar from "../components/Navbar";
 import {
   fetchInfiniteNewsData,
   fetchRegularNewsData,
@@ -14,7 +14,6 @@ const Home: React.FunctionComponent = () => {
   const {
     userData,
     regularNewsData,
-    // infiniteNewsData,
     displayedNews,
     setRegularNewsData,
     setInfiniteNewsData,
@@ -60,10 +59,9 @@ const Home: React.FunctionComponent = () => {
 
   return (
     <main className="main-content">
-      <Banner />
+      <Navbar />
       <Topbar />
       <MainSection />
-      {/* CHANGE NAMING */}
     </main>
   );
 };

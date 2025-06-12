@@ -1,24 +1,20 @@
-// import { type User } from "./User";
+export interface ILoginData {
+  email: string;
+  password: string;
+}
 
-// export interface AuthContextType {
-//   user: User | null;
-//   signIn: (email: string, password: string) => Promise<void>;
-//   signOut: () => void;
-//   signUp: (userData: SignUpInput) => Promise<void>;
-// }
+export interface IRegisterData extends ILoginData {
+  firstName: string;
+  lastName: string;
+  confirmPassword: string;
+}
 
-// export interface SignUpInput {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   password: string;
-// }
+export interface IVerifyEmailData {
+  emailVerified: boolean;
+  message: string;
+  error: string | null;
+}
 
-// export interface SignInInput {
-//   email: string;
-//   password: string;
-// }
-
-export interface IUrl {
-  url: string;
+export interface IToken {
+  token: string;
 }

@@ -1,25 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { register } from "../services/actions/authActions";
-import "../styles/components/Auth.scss";
 import Icon from "@/components/Icon";
-import type { ILoginData } from "./SignIn";
-
-export interface IRegisterData extends ILoginData {
-  firstName: string;
-  lastName: string;
-  confirmPassword: string;
-}
-
-const defaultFormData: IRegisterData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
+import { useNewsContext } from "@/context/NewsContext";
+import { useNavigate } from "react-router-dom";
+import type { IRegisterData } from "@/types/Auth";
+import { defaultRegisterData } from "@/data/authData";
+import "../styles/components/Auth.scss";
 
 const SignUp: React.FunctionComponent = () => {
-  const [form, setForm] = useState<IRegisterData>(defaultFormData);
+  const { userData } = useNewsContext();
+  const navigate = useNavigate();
+  const [form, setForm] = useState<IRegisterData>(defaultRegisterData);
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -70,16 +61,16 @@ const SignUp: React.FunctionComponent = () => {
       setMessage(
         response.message || "Check your email to verify your account."
       );
-      setForm(defaultFormData);
+      setForm(defaultRegisterData);
     } catch (err: unknown) {
-      let errorMessage = ""
+      let errorMessage = "";
 
-      if (typeof err === 'string') {
+      if (typeof err === "string") {
         errorMessage = err;
-      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+      } else if (typeof err === "object" && err !== null && "message" in err) {
         errorMessage = (err as { message: string }).message;
       } else {
-        errorMessage = 'Registration failed: An unknown error occurred.';
+        errorMessage = "Registration failed: An unknown error occurred.";
       }
 
       setError(errorMessage);
@@ -88,83 +79,101 @@ const SignUp: React.FunctionComponent = () => {
     }
   };
 
-  return (
-    <div className="auth-container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="firstName"
-          placeholder="First Name"
-          onChange={handleChange}
-          value={form.firstName}
-          required
-        />
-        <input
-          name="lastName"
-          placeholder="Last Name"
-          onChange={handleChange}
-          value={form.lastName}
-          required
-        />
+  useEffect(() => {
+    if (userData) navigate("/");
+  }, [userData]);
 
-        <div className="input-row">
+  return (
+    <div className="auth-container-wrapper">
+      <div className="auth-container">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
           <input
-            name="email"
-            type="email"
-            placeholder="Email"
+            name="firstName"
+            placeholder="First Name"
             onChange={handleChange}
-            value={form.email}
+            value={form.firstName}
             required
           />
-        </div>
+          <input
+            name="lastName"
+            placeholder="Last Name"
+            onChange={handleChange}
+            value={form.lastName}
+            required
+          />
 
-        <div className="input-row password-row">
-          <div className="password-wrapper">
+          <div className="input-row">
             <input
-              name="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              name="email"
+              type="email"
+              placeholder="Email"
               onChange={handleChange}
-              value={form.password}
+              value={form.email}
               required
             />
-            <button
-              type="button"
-              className="show-hide-btn"
-              onClick={togglePasswordVisibility}
-              aria-label="Toggle password visibility"
-            >
-              <Icon name="eye" viewBox="0 0 24 24" alt="Show or hide password"/>
-            </button>
           </div>
 
-          <div className="password-wrapper">
-            <input
-              name="confirmPassword"
-              type={showPassword ? "text" : "password"}
-              placeholder="Repeat Password"
-              onChange={handleChange}
-              value={form.confirmPassword}
-              required
-            />
-            <button
-              type="button"
-              className="show-hide-btn"
-              onClick={togglePasswordVisibility}
-              aria-label="Toggle password visibility"
-            >
-              <Icon name="eye" viewBox="0 0 24 24" alt="Show or hide password"/>
-            </button>
+          <div className="input-row password-row">
+            <div className="password-wrapper">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                onChange={handleChange}
+                value={form.password}
+                required
+              />
+              <button
+                type="button"
+                className="show-hide-btn"
+                onClick={togglePasswordVisibility}
+                aria-label="Toggle password visibility"
+              >
+                <Icon
+                  name="eye"
+                  viewBox="0 0 24 24"
+                  alt="Show or hide password"
+                />
+              </button>
+            </div>
+
+            <div className="password-wrapper">
+              <input
+                name="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                placeholder="Repeat Password"
+                onChange={handleChange}
+                value={form.confirmPassword}
+                required
+              />
+              <button
+                type="button"
+                className="show-hide-btn"
+                onClick={togglePasswordVisibility}
+                aria-label="Toggle password visibility"
+              >
+                <Icon
+                  name="eye"
+                  viewBox="0 0 24 24"
+                  alt="Show or hide password"
+                />
+              </button>
+            </div>
           </div>
-        </div>
 
-        <button type="submit" disabled={isProcessing}>
-          Register
-        </button>
+          <button type="submit" disabled={isProcessing}>
+            Register
+          </button>
+          <p>
+            Already have an account? <a href="/sign-in">Sign in</a>
+          </p>
 
-        {message && <p className="success-msg">{message}</p>}
-        {error && <p className="error-msg">{error}</p>}
-      </form>
+          {isProcessing ? <p className="success-msg">Processing...</p> : ""}
+          {message ? <p className="success-msg">{message}</p> : ""}
+          {error ? <p className="error-msg">{error}</p> : ""}
+        </form>
+      </div>
     </div>
   );
 };

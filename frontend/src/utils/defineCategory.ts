@@ -1,4 +1,4 @@
-import { categoryKeywordMap } from "@/data/constants";
+import { categoryKeywordMap } from "@/data/commonData";
 
 export const defineCategory = (titleText: string): string => {
   let mostFrequentKeyword: string | null = null;
@@ -38,11 +38,11 @@ export const defineCategory = (titleText: string): string => {
     case "breaking news":
       return "BREAKING";
     case "viral":
-        return "VIRAL";
+      return "VIRAL";
     case "fun":
-        return "FUN";
+      return "FUN";
     case "news":
-        return "NEWS"
+      return "NEWS";
     default:
       return "GENERAL";
   }

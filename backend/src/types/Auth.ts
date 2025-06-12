@@ -1,15 +1,6 @@
-import { Request } from 'express';
-import { UserDocument } from './User';
+import { Request } from "express";
+import { IUserDocument } from "./User";
 
-export interface AuthRequest extends Request {
-  user: UserDocument;
+export interface IAuthRequest extends Request {
+  user?: IUserDocument;
 }
-
-// //express/index.d.ts – Custom extension for req.user
-// export interface AuthRequest extends Request {
-//   user?: {
-//     id: string;
-//     email?: string;
-//     // add more fields if needed
-//   };
-// }

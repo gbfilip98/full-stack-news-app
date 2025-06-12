@@ -1,16 +1,26 @@
+.auth-container-wrapper {
+  height: 100vh;
+  width: 100%;
+  background: $color_gray_primary;
+  padding-top: 16px;
+}
+
 .auth-container {
   max-width: 400px;
-  margin: 60px auto;
+  margin: 0 auto;
   padding: 30px;
   background: $color_white_primary;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+
+  @media screen and (max-width: 432px) {
+    margin: 60px 16px;
+  }
 
   h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: $color_black_primary;
   }
 
   form {
@@ -20,7 +30,7 @@
 
     input {
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid $color_gray_secondary;
       border-radius: 6px;
       width: 100%;
     }
@@ -57,7 +67,7 @@
         transform: translateY(-50%);
         background: none;
         border: none;
-        font-size: 1.1rem;
+        font-size: 17.6px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -69,10 +79,19 @@
       padding: 10px;
       background-color: $color_red_primary;
       color: $color_white_primary;
-      font-weight: 500;
+      font-weight: $font_weight_medium;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+    }
+
+    p {
+      font-size: 12px;
+      color: $color_black_primary;
+
+      a {
+        color: $color_black_primary;
+      }
     }
 
     .error-msg {

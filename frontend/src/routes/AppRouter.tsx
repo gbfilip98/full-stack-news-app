@@ -1,8 +1,13 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import SignUp from '../pages/SignUp';
-import VerifyEmail from '../pages/VerifyEmail';
-import SignIn from '../pages/SignIn';
-import Home from '../pages/Home';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import SignUp from "../pages/SignUp";
+import VerifyEmail from "../pages/VerifyEmail";
+import SignIn from "../pages/SignIn";
+import Home from "../pages/Home";
 
 const AppRouter = () => {
   return (

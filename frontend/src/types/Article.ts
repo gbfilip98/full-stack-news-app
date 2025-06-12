@@ -1,4 +1,4 @@
-export interface Article {
+export interface IArticle {
   _id?: string;
   source: {
     id: string | null;
@@ -14,8 +14,12 @@ export interface Article {
   category?: string;
 }
 
-export interface NewsApiResponse {
+export interface INewsApiResponse {
   status: string;
   totalResults: number;
-  articles: Article[];
+  articles: IArticle[];
+}
+
+export interface ISingleArticle {
+  article: IArticle;
 }

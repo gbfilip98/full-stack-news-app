@@ -1,29 +1,34 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "es2020",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "es2020",
 
-    /* Modules */
-    "module": "es2020",                                  // Required for ESM
-    "moduleResolution": "bundler",                       // Required for Node ESM
-    "rootDir": "./src",                                  /* Specify the root folder within your source files. */
+    /* Module System */
+    "module": "es2020",
+    "moduleResolution": "bundler",
+    "rootDir": "./src",
 
-    /* Emit */
-    "outDir": "./dist",                                  /* Specify an output folder for all emitted files. */
+    /* Emit Settings */
+    "outDir": "./dist",
 
-    /* Interop Constraints */
-    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-
-    /* Type Checking */
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    /* Interop and Compatibility */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
+
+    /* Type Checking */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
   },
+
+  /* ts-node Runtime Settings */
   "ts-node": {
     "esm": true
   },
-  "include": ["src/**/*", "/tests"],
+
+  /* Files to Include */
+  "include": ["src", "src/tests/**/*.ts"],
+  "exclude": ["dist"]
 }

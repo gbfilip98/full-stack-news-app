@@ -1,17 +1,17 @@
-import { Article } from "./Article";
-import { Document } from 'mongoose';
+import { IArticle } from "./Article";
+import { Document } from "mongoose";
 
-export interface User {
+export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   isVerified: boolean;
-  bookmarks: Article[]; // article URLs
+  bookmarks: IArticle[]; // bookmarked articles (favorites) by certain user
 }
 
-export interface UserDocument extends User, Document {
-  toObject(): Omit<User, 'password'> & { password?: string };
+export interface IUserDocument extends IUser, Document {
+  toObject(): Omit<IUser, "password"> & { password?: string };
 }
 
-export type UserSafeData = Omit<User, 'password'>;
+export type UserSafeData = Omit<IUser, "password">;

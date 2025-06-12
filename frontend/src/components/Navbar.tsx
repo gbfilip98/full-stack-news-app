@@ -1,24 +1,19 @@
 import { lazy, useState } from "react";
-import "../styles/components/Banner.scss";
 import Icon from "./Icon";
-import { colors } from "@/data/constants";
 import LogoutWindow from "./LogoutWindow";
+import { colors } from "@/data/commonData";
+import "../styles/components/Navbar.scss";
 
-const BannerWindowDesktop = lazy(() => import("./BannerWindowDesktop"));
+const NavbarBannerWindow = lazy(() => import("./NavbarBannerWindow"));
 
-// interface Props {
-//   bannerVisible: boolean;
-//   setBannerVisible: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-
-const Banner: React.FunctionComponent = () => {
+const Navbar: React.FunctionComponent = () => {
   const [messageOpened, setMessageOpened] = useState(false);
   const [logoutWindowOpened, setLogoutWindowOpened] = useState<boolean>(false);
   const [bannerVisible, setBannerVisible] = useState<boolean>(true);
 
   return (
-    <div className="banner-wrapper">
-      <div className="banner">
+    <div className="navbar-wrapper">
+      <div className="navbar">
         {bannerVisible ? (
           <>
             <div className="banner-texts">
@@ -51,16 +46,15 @@ const Banner: React.FunctionComponent = () => {
         )}
       </div>
       {messageOpened ? (
-        // <Suspense fallback={<div>Loading...</div>}>
-          <BannerWindowDesktop setBannerVisible={setBannerVisible} setMessageOpened={setMessageOpened}/>
-        // </Suspense>
+        <NavbarBannerWindow
+          setBannerVisible={setBannerVisible}
+          setMessageOpened={setMessageOpened}
+        />
       ) : (
         ""
       )}
       {logoutWindowOpened ? (
-        // <Suspense fallback={<div>Loading...</div>}>
-          <LogoutWindow setLogoutWindowOpened={setLogoutWindowOpened} />
-        // </Suspense>
+        <LogoutWindow setLogoutWindowOpened={setLogoutWindowOpened} />
       ) : (
         ""
       )}
@@ -68,4 +62,4 @@ const Banner: React.FunctionComponent = () => {
   );
 };
 
-export default Banner;
+export default Navbar;
